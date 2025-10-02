@@ -308,3 +308,48 @@ def matricularCamper():
     guardar(rutaCampers, campers)
     guardar(rutaRutas, rutas)
     print(f"\n✅ Camper '{campers[camperSeleccionado]['nombre']} {campers[camperSeleccionado]['apellido']}' matriculado en la ruta '{rutaSeleccionada}' con éxito.")
+
+def consultarCamperEnRiesgo():
+    rutaCampers = "data/campers.json"
+    rutaRutas = "data/rutas.json"
+    campers = cargar(rutaCampers)
+    rutas = cargar(rutaRutas)
+
+    # Mostrar todos los campers inscritos
+    campersInscritos = {ID: info for ID, info in campers.items() if info["estado"] == "inscrito"}
+    print("\n----CAMPERS INSCRITOS----")
+    for ID, info in campersInscritos.items():
+        print(f"{ID}: {info['nombre']} {info['apellido']}")
+
+    # Recorrer rutas y matriculas
+    for nombreRuta, infoRuta in rutas.items():
+        matriculas = infoRuta.get("matriculas", {})
+
+        for IDcamper, infoMatricula in matriculas.items():
+            if campers.get(IDcamper, {}).get("estado") != "inscrito":
+                continue
+
+            modulos = infoMatricula.get("modulos", {})
+
+            for nombreModulo, notas in modulos.items():
+                # Saltar módulos sin notas
+                if notas.get("teorica") is None and notas.get("practica") is None and notas.get("quiz") is None:
+                    continue
+
+                # Calcular promedio ponderado
+                notaT = notas.get("teorica", 0)
+                notaP = notas.get("practica", 0)
+                notaQ = notas.get("quiz", 0)
+
+                promedio = notaT*0.3 + notaP*0.6 + notaQ*0.1
+
+                # Actualizar riesgo según promedio
+                if promedio < 60:
+                    campers[IDcamper]["riesgo"] = "alto"
+                else:
+                    campers[IDcamper]["riesgo"] = "bajo"
+
+    # Guardar cambios una sola vez al final
+    guardar(rutaCampers, campers)
+    print("\n✅ Se ha actualizado el riesgo de todos los campers inscritos según sus notas.")
+
