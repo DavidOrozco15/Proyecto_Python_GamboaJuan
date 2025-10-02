@@ -1,0 +1,35 @@
+{
+    "NodeJS": {
+        "modulos": {
+            "Fundamentos de programación": ["Introducción a la algoritmia", "PSeInt", "Python"],
+            "Programación Web": ["HTML", "CSS", "Bootstrap"],
+            "Programación formal": ["JavaScript"],
+            "Bases de datos": ["MySQL", "MongoDB", "PostgreSQL"],
+            "Backend": ["NodeJS"]
+        },
+        "capacidad_max": 33,
+        "campers_asignados": []
+    },
+    "Java": {
+        "modulos": {
+            "Fundamentos de programación": ["Introducción a la algoritmia", "PSeInt", "Python"],
+            "Programación Web": ["HTML", "CSS", "Bootstrap"],
+            "Programación formal": ["Java"],
+            "Bases de datos": ["MySQL", "MongoDB", "PostgreSQL"],
+            "Backend": ["Spring Boot"]
+        },
+        "capacidad_max": 33,
+        "campers_asignados": []
+    },
+    "NetCore": {
+        "modulos": {
+            "Fundamentos de programación": ["Introducción a la algoritmia", "PSeInt", "Python"],
+            "Programación Web": ["HTML", "CSS", "Bootstrap"],
+            "Programación formal": ["C#"],
+            "Bases de datos": ["MySQL", "MongoDB", "PostgreSQL"],
+            "Backend": ["NetCore"]
+        },
+        "capacidad_max": 33,
+        "campers_asignados": []
+    }
+}
