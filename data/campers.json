@@ -1,0 +1,16 @@
+{
+    "12345": {
+        "nombres": "juan",
+        "apellidos": "gamboa",
+        "direccion": "cra 33 a 114",
+        "acudiente": "maria",
+        "telefonos": {
+            "celular": "312412312",
+            "fijo": "612312"
+        },
+        "estado": "en proceso de ingreso",
+        "riesgo": "bajo",
+        "ruta": null,
+        "notas": {}
+    }
+}

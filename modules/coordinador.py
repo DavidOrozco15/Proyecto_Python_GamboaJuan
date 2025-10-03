@@ -1,6 +1,6 @@
 import json
-from utils import cargar, guardar, val, validadorCamper, validadorTrainer, valFloat, validadorCamperNoExiste, validarEstado
-import modules.messages as m
+from modules.utils import cargar, guardar, val, validadorCamper, validadorTrainer, valFloat, validadorCamperNoExiste, validarEstado
+import modules.messages as msg
 
 #Tuplas
 estados = (
@@ -15,7 +15,6 @@ estados = (
 
 riesgos = (
         "bajo",
-        "medio",
         "alto"
     )
 
@@ -73,8 +72,8 @@ def registrarTrainer():
     estado = "activo"
 
     trainer = {
-        "nombre": nombre,
-        "apellido": apellido,
+        "nombres": nombre,
+        "apellidos": apellido,
         "telefono": telefono,
         "correo": correo,
         "estado": estado,
@@ -94,7 +93,7 @@ def registrarNotas():
 
     if IDcamper in campers:
         Id = campers[IDcamper]
-        print(f"\n Camper ID:{IDcamper} | Nombre: {Id['nombre']} Estado: {Id['estado']}")
+        print(f"\n Camper ID:{IDcamper} | Nombre: {Id['nombres']} Estado: {Id['estado']}")
 
     notaT = valFloat("Ingresa el valor de la Nota Teorica (0-100)")
     notaP = valFloat("Ingresa el valor de la Nota Practica (0-100)")
@@ -121,9 +120,12 @@ def registrarNotas():
     print(f"Promedio final: {promedio:.2f} | Estado: {campers[IDcamper]['estado']}")
 
 def crearRuta():
+    import modules.utils as u  # si tienes funciones como cargar y guardar
+    from modules import main as m
 
     horarios = ["08:00-12:00", "12:00-16:00", "16:00-20:00"]
     salones = ["salon 1", "salon 2", "salon 3"]
+
     modulosRuta = {
         "Fundamentos de programación": ["Introducción a la algoritmia", "PSeInt", "Python"],
         "Programación Web": ["HTML", "CSS", "Bootstrap"],
@@ -131,40 +133,54 @@ def crearRuta():
     }
 
     ruta = "data/rutas.json"
-    rutas = cargar(ruta)
+    rutas = u.cargar(ruta)
 
+    
     nombreRuta = input("Ingrese el nombre de la ruta: ")
-    m.rutasFijas()
-
-    print("Programacion Formal (escoge una opcion): ")
+    # si muestras rutas fijas
+    msg.rutasFijas()
+    # Elegir Programación Formal
+    print("Programación Formal (escoge una opción): ")
     print("1. Java | 2. JavaScript | 3. C#")
-    formal = input()
-    if formal == 1:
-        formal = "java"
-    elif formal == 2:
-        formal = "javascript"
-    elif formal == 3:
-        formal = "c#"
-    
-    print("Backend (escoge una opcion): ")
-    print("1. NodeJS | 2. SpringBoot | 3. Netcore | 4. Express")
-    backend = input()
-    if backend == 1:
-        backend = "nodejs"
-    elif backend == 2:
-        backend = "springboot"
-    elif backend == 3:
-        backend = "netcore"
-    elif backend == 4:
-        backend = "express"
+    formal = input("Seleccione: ")
+    if formal == "1":
+        formal = "Java"
+    elif formal == "2":
+        formal = "JavaScript"
+    elif formal == "3":
+        formal = "C#"
 
+    # Elegir Backend
+    print("Backend (escoge una opción): ")
+    print("1. NodeJS | 2. SpringBoot | 3. Netcore | 4. Express")
+    backend = input("Seleccione: ")
+    if backend == "1":
+        backend = "NodeJS"
+    elif backend == "2":
+        backend = "SpringBoot"
+    elif backend == "3":
+        backend = "Netcore"
+    elif backend == "4":
+        backend = "Express"
+
+    # Elegir Bases de Datos (opcional, se pueden escoger dos)
+    print("\nBases de datos disponibles (escoge hasta 2, separados por coma):")
+    for i, db in enumerate(modulosRuta["Bases de datos"], 1):
+        print(f"{i}. {db}")
+    db_input = input("Ingrese números separados por coma (Enter para ninguna): ")
+    basesSeleccionadas = []
+    if db_input.strip():
+        indices = db_input.split(",")
+        for ind in indices[:2]:  # máximo 2
+            if ind.strip().isdigit() and 1 <= int(ind.strip()) <= len(modulosRuta["Bases de datos"]):
+                basesSeleccionadas.append(modulosRuta["Bases de datos"][int(ind.strip())-1])
+
+    # Capacidad
     capacidad = input("Ingrese la capacidad máxima de la ruta (Enter para 33): ")
-    if capacidad.strip() == "":
-        capacidad = 33
-    else:
-        capacidad = int(capacidad)
-    
-    print("\Salones de entrenamiento disponibles:")
+    capacidad = int(capacidad) if capacidad.strip() else 33
+
+    # Selección de salón
+    print("\nSalones de entrenamiento disponibles:")
     for i, salon in enumerate(salones, 1):
         print(f"{i}. {salon}")
     while True:
@@ -174,21 +190,51 @@ def crearRuta():
             break
         else:
             print("❌ Selección inválida. Intente nuevamente.")
-    
+
+    # Horarios disponibles según salón
+    ocupados_por_salon = {}
+    for r in rutas.values():
+        s = r["salon"]
+        for h in r["horarios"]:
+            if s not in ocupados_por_salon:
+                ocupados_por_salon[s] = []
+            ocupados_por_salon[s].append(h)
+
+    disponibles = [h for h in horarios if h not in ocupados_por_salon.get(salonSeleccionado, [])]
+    if not disponibles:
+        print(f"❌ No hay horarios disponibles para {salonSeleccionado}.")
+        return
+
+    print(f"\nHorarios disponibles para {salonSeleccionado}:")
+    for i, h in enumerate(disponibles, 1):
+        print(f"{i}. {h}")
+    while True:
+        seleccion_horario = int(input("Seleccione un horario: "))
+        if 1 <= seleccion_horario <= len(disponibles):
+            horarioSeleccionado = [disponibles[seleccion_horario - 1]]  # se guarda como lista
+            break
+        else:
+            print("❌ Selección inválida. Intente nuevamente.")
+
+    # Crear la ruta
     nuevaRuta = {
-    "modulos": {
-        **modulosRuta,
-        "Programación formal": [formal],
-        "Backend": [backend]
-    },
-    "capacidadMax": capacidad,
-    "campersAsignados": [],
-    "salon": salonSeleccionado,
-    "horarios": horarios
+        "modulos": {
+            **modulosRuta,
+            "Programación formal": [formal],
+            "Backend": [backend],
+            "Bases de datos": basesSeleccionadas
+        },
+        "capacidadMax": capacidad,
+        "campersAsignados": [],
+        "salon": salonSeleccionado,
+        "horarios": horarioSeleccionado,
+        "trainerEncargado": "No asignado",
+        "matriculas": {}
     }
+
     rutas[nombreRuta] = nuevaRuta
-    guardar(ruta, rutas)
-    print(f"✅ Ruta '{nombreRuta}' creada correctamente.")
+    u.guardar(ruta, rutas)
+    print(f"✅ Ruta '{nombreRuta}' creada correctamente en {salonSeleccionado} con horario {horarioSeleccionado[0]}.")
 
 def cambiarEstado():
     ruta = "data/campers.json"
@@ -199,7 +245,7 @@ def cambiarEstado():
     validadorCamperNoExiste(IDcamper, campers)
 
     Id = campers[IDcamper]
-    print(f"\n Camper ID:{IDcamper} | Nombre: {Id['nombre']} Estado: {Id['estado']}")
+    print(f"\n Camper ID:{IDcamper} | Nombre: {Id['nombres']} Estado: {Id['estado']}")
 
     print(estados).strip
     while True:
@@ -245,7 +291,7 @@ def asignarTrainerRuta():
     rutas[rutaSeleccionada]["trainerEncargado"] = trainerSeleccionado
     guardar(rutaRutas, rutas)
 
-    print(f"\n✅ Trainer '{trainers[trainerSeleccionado]['nombre']} {trainers[trainerSeleccionado]['apellido']}' asignado correctamente a la ruta '{rutaSeleccionada}'.")
+    print(f"\n✅ Trainer '{trainers[trainerSeleccionado]['nombres']} {trainers[trainerSeleccionado]['apellidos']}' asignado correctamente a la ruta '{rutaSeleccionada}'.")
 
 def matricularCamper():
     rutaCampers = "data/campers.json"
@@ -257,7 +303,7 @@ def matricularCamper():
 
     print("\n----CAMPERS APROBADOS----")
     for IDcamper, info in campersAprobados.items():
-        print(f"{IDcamper}: {info['nombre']} {info['apellido']}")
+        print(f"{IDcamper}: {info['nombres']} {info['apellidos']}")
 
     while True:
         opcion = int(input("Seleccione un camper: "))
@@ -307,7 +353,7 @@ def matricularCamper():
 
     guardar(rutaCampers, campers)
     guardar(rutaRutas, rutas)
-    print(f"\n✅ Camper '{campers[camperSeleccionado]['nombre']} {campers[camperSeleccionado]['apellido']}' matriculado en la ruta '{rutaSeleccionada}' con éxito.")
+    print(f"\n✅ Camper '{campers[camperSeleccionado]['nombres']} {campers[camperSeleccionado]['apellidos']}' matriculado en la ruta '{rutaSeleccionada}' con éxito.")
 
 def consultarCamperEnRiesgo():
     rutaCampers = "data/campers.json"
@@ -319,7 +365,7 @@ def consultarCamperEnRiesgo():
     campersInscritos = {ID: info for ID, info in campers.items() if info["estado"] == "inscrito"}
     print("\n----CAMPERS INSCRITOS----")
     for ID, info in campersInscritos.items():
-        print(f"{ID}: {info['nombre']} {info['apellido']}")
+        print(f"{ID}: {info['nombres']} {info['apellidos']}")
 
     # Recorrer rutas y matriculas
     for nombreRuta, infoRuta in rutas.items():
@@ -349,7 +395,134 @@ def consultarCamperEnRiesgo():
                 else:
                     campers[IDcamper]["riesgo"] = "bajo"
 
-    # Guardar cambios una sola vez al final
     guardar(rutaCampers, campers)
     print("\n✅ Se ha actualizado el riesgo de todos los campers inscritos según sus notas.")
+    
+def listarCampersInscritos():
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+    
+    campersInscritos = {IDcamper : info for IDcamper, info in campers.items() if info["estado"] == "inscrito"}
 
+    print("\n----CAMPERS INSCRITOS----")
+    for IDcamper, info in campersInscritos.items():
+        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
+        print("-"*20)
+
+def listarCampersAprobados():
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+    
+    campersAprobados = {IDcamper : info for IDcamper, info in campers.items() if info["estado"] == "aprobado"}
+
+    print("\n----CAMPERS APROBADOS----")
+    for IDcamper, info in campersAprobados.items():
+        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
+        print("-"*20)
+
+def listarTrainers():
+    ruta = "data/trainers.json"
+    trainers = cargar(ruta)
+    
+    trainersActivos = {IDtrainer : info for IDcamper, info in trainers.items() if info["estado"] == "activo"}
+
+    print("\n----CAMPERS APROBADOS----")
+    for IDtrainer, info in trainersActivos.items():
+        print(f"ID: {IDtrainer}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
+        print("-"*20)
+
+def listarCampersBajoRendimiento():
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+    
+    campersRiesgo = {IDcamper : info for IDcamper, info in campers.items() if info["riesgo"] == "alto"}
+
+    print("\n----CAMPERS APROBADOS----")
+    for IDcamper, info in campersRiesgo.items():
+        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Riesgo : {info['riesgo']}").strip()
+        print("-"*20)
+
+def listarRutaCampersTrainers():
+    ruta = "data/rutas.json"
+    rutaRutas = cargar(ruta)
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+    ruta = "data/trainers.json"
+    trainers = cargar(ruta)
+    
+    for nombreRuta, infoRuta in rutaRutas.items():
+        # Obtener el ID del trainer encargado
+        IDtrainer = infoRuta.get("trainerEncargado", None)
+        if IDtrainer and IDtrainer in trainers:
+            trainerNombre = f"{trainers[IDtrainer]['nombres']} {trainers[IDtrainer]['apellidos']}"
+        else:
+            trainerNombre = "No asignado"
+
+        # Obtener campers asignados
+        campersAsignados = infoRuta.get("campersAsignados", [])
+
+        print(f"\n---- RUTA: {nombreRuta} | Trainer: {trainerNombre} ----")
+        
+        if not campersAsignados:
+            print("No hay campers asignados.")
+        else:
+            for IDcamper in campersAsignados:
+                info = campers.get(IDcamper, {})
+                print(f"ID: {IDcamper} | Nombre: {info.get('nombres','')} {info.get('apellidos','')} | "f"Estado: {info.get('estado','')} | Riesgo: {info.get('riesgo','')}")
+        print("-"*40)
+    
+def mostrarResultadosModulos():
+    ruta = "data/rutas.json"
+    rutaRutas = cargar(ruta)
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+    ruta = "data/trainers.json"
+    trainers = cargar(ruta)
+    
+    for nombreRuta, infoRuta in rutaRutas.items():
+        # Obtener el ID del trainer encargado
+        IDtrainer = infoRuta.get("trainerEncargado", None)
+        if IDtrainer and IDtrainer in trainers:
+            trainerNombre = f"{trainers[IDtrainer]['nombres']} {trainers[IDtrainer]['apellidos']}"
+        else:
+            trainerNombre = "No asignado"
+            
+        print(f"\n---- RUTA: {nombreRuta} | Trainer: {trainerNombre} ----")
+        
+        matriculas = infoRuta.get("matricula", {})
+        
+        modulosResumen = {}
+        
+    for IDcamper, infoMatricula in matriculas.items():
+        camperInfo = campers.get(IDcamper, {})
+        modulos = infoMatricula.get("modulos", {})
+
+        for nombreModulo, notas in modulos.items():
+            # Calcular promedio ponderado
+            notaT = notas.get("teorica", 0)
+            notaP = notas.get("practica", 0)
+            notaQ = notas.get("quiz", 0)
+            promedio = notaT*0.3 + notaP*0.6 + notaQ*0.1
+
+            # Inicializar diccionario del módulo si no existe
+            if nombreModulo not in modulosResumen:
+                modulosResumen[nombreModulo] = {'aprobados': [], 'reprobados': []}
+
+            # Nombre completo del camper
+            nombreCompleto = camperInfo.get('nombres','') + " " + camperInfo.get('apellidos','')
+
+            # Clasificar según promedio
+            if promedio >= 60:
+                modulosResumen[nombreModulo]['aprobados'].append(nombreCompleto)
+            else:
+                modulosResumen[nombreModulo]['reprobados'].append(nombreCompleto)
+
+# Imprimir resumen por módulo
+    for nombreModulo, datos in modulosResumen.items():
+        aprobados = datos['aprobados']
+        reprobados = datos['reprobados']
+
+        print(f"\nMódulo: {nombreModulo}")
+        print(f"Aprobados ({len(aprobados)}): {', '.join(aprobados) if aprobados else 'Ninguno'}")
+        print(f"Reprobados ({len(reprobados)}): {', '.join(reprobados) if reprobados else 'Ninguno'}")
+        print("-"*50)

@@ -1,13 +1,21 @@
 import modules.utils as u
 import modules.messages as mgs
+import modules.login as l
+import modules.coordinador as c
 
-def login():
+def main():
     while True:
         opcion = mgs.menuLog()
         match opcion:
             case 1:
-                # Aquí iría la lógica para iniciar sesión
-                pass
+                rol, user = l.login()
+                match rol:
+                    case "coordinador":
+                        menuCoordinador()
+                    case "trainer":
+                        menuTrainer()
+                    case "camper":
+                        menuCamper()
             case 0:
                 print("¡Hasta luego! 👋")
                 break
@@ -16,56 +24,61 @@ def login():
                 u.pausar()
                 u.limpiar()
 
-def menu_coordinador():
+def menuCoordinador():
     while True:
         opcion = mgs.menuCoordinador()
         match opcion:
             case 1:
                 # Registrar Camper
-                pass
+                c.registrarCamper()
             case 2:
                 # Registrar Trainer
-                pass
+                c.registrarTrainer()
             case 3:
                 # Crear Ruta de entrenamiento
-                pass
+                c.crearRuta()
             case 4:
-                # Crear área de entrenamiento
-                pass
+                # Cambiar estados
+                c.cambiarEstado()
             case 5:
-                # Asignar Matrícula
-                pass
+                c.registrarNotas()
             case 6:
-                menu_reportes()
+                c.asignarTrainerRuta()
+            case 7:
+                c.matricularCamper()
+            case 8:
+                c.consultarCamperEnRiesgo()
+            case 9:
+                mgs.menuReportes()
             case 0:
                 print("Sesión cerrada.")
-                break
+                mgs.menuLog()
             case _:
                 u.validacionOpcion()
                 u.pausar()
                 u.limpiar()
 
-def menu_reportes():
+def menuReportes():
     while True:
         opcion = mgs.menuReportes()
         match opcion:
             case 1:
-                # Listar campers en estado "Inscrito"
+                c.listarCampersInscritos()
                 pass
             case 2:
-                # Listar campers que aprobaron examen inicial
+                c.listarCampersAprobados()
                 pass
             case 3:
-                # Listar entrenadores activos
+                c.listarTrainers()
                 pass
             case 4:
-                # Listar campers con bajo rendimiento
+                c.listarCampersBajoRendimiento()
                 pass
             case 5:
-                # Listar campers y trainers asociados a rutas
+                c.listarRutaCampersTrainers()
                 pass
             case 6:
-                # Mostrar aprobados y perdidos por módulo, ruta y trainer
+                c.mostrarResultadosModulos()
                 pass
             case 0:
                 break
@@ -74,7 +87,7 @@ def menu_reportes():
                 u.pausar()
                 u.limpiar()
 
-def menu_trainer():
+def menuTrainer():
     while True:
         opcion = mgs.menuTrainer()
         match opcion:
@@ -92,7 +105,7 @@ def menu_trainer():
                 u.pausar()
                 u.limpiar()
 
-def menu_camper():
+def menuCamper():
     while True:
         opcion = mgs.menuCamper()
         match opcion:

@@ -1,8 +1,9 @@
 import modules.utils as u
 
 def menuLog():
+    u.limpiar()
     print("\n----CAMPUSLANDS ERP----")
-    print("1. Iniciar Sesion 👤")
+    print("1. Iniciar Sesion👤")
     print("0. Salir 👋")
     try:
             opcion = int(input("Seleccione: "))
@@ -16,17 +17,21 @@ def menuLog():
             u.pausar()
 
 def menuCoordinador():
+    u.limpiar()
     print("\n----BIENVENIDO COORDINADOR 🙍‍♂️----")
     print("1. Registrar Camper 👨‍🎓")
     print("2. Registrar Trainer")
     print("3. Crear Ruta de entrenamiento")
-    print("4. Crear area de entrenamiento")
-    print("5. Asignar Matricula")
-    print("6. Reportes")
+    print("4. Cambiar Estados Manuales")
+    print("5. Registrar Notas")
+    print("6. Asignar Trainer Ruta")
+    print("7. Asignar Matricula")
+    print("8. Consultar Riesgo Camper")
+    print("9. Reportes")
     print("0. Cerrar Sesion")
     try:
             opcion = int(input("Seleccione: "))
-            if opcion in {0, 1, 2, 3, 4, 5, 6}:
+            if opcion in {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}:
                 return opcion
             else:
                 print("Error: Opción inválida. Intente nuevamente.")
@@ -36,6 +41,7 @@ def menuCoordinador():
             u.pausar()
 
 def menuReportes():
+    u.limpiar()
     print("\n----MENÚ DE REPORTES 📊----")
     print("1. Listar campers en estado 'Inscrito'")
     print("2. Listar campers que aprobaron examen inicial")
@@ -56,6 +62,7 @@ def menuReportes():
         u.pausar()
 
 def menuTrainer():
+    u.limpiar()
     print("\n--- BIENVENIDO TRAINER ---")
     print("1. Registrar notas de campers")
     print("2. Consultar campers de mis rutas")
@@ -72,6 +79,7 @@ def menuTrainer():
         u.pausar()
 
 def menuCamper():
+    u.limpiar()
     print("\n--- MENÚ CAMPER ---")
     print("1. Consultar mi ruta asignada")
     print("2. Consultar mis notas")
@@ -88,8 +96,9 @@ def menuCamper():
         u.pausar()
 
 def rutasFijas():
+    u.limpiar()
     print("\n---MODULOS FIJOS---")
     print("Fundamentos de Programacion: Introduccion a la algoritmia | PSeint | Python")
     print("Programacion Web: HTML | CSS | Bootstrap")
-    print("Bases de datos: MySQL | MongoDB | PostgreSQL")
+    
 
