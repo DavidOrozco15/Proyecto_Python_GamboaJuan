@@ -1,4 +1,4 @@
-from modules.utils import cargar, pausar
+from modules.utils import cargar, pausar, limpiar, val
 import modules.messages as m
 
 def login():
@@ -7,25 +7,28 @@ def login():
     ruta2 = "data/campers.json"
     campers = cargar(ruta2)
     
-    user = input("Ingrese su usuario: ").lower()
+    user = val("\nIngrese su usuario: ").lower()
     if user == "admin":
-        print("INICIASTE SESION COMO COORDINADOR")
+        limpiar()
+        print("\nINICIASTE SESION COMO COORDINADOR")
         pausar()
         return "coordinador", user
     
     elif user in trainers:
-        print("ACCESO CONCEDIDO")
+        limpiar()
+        print("\nACCESO CONCEDIDO")
         print(f"Bienvenido Trainer {trainers[user]['nombre']}")
         pausar()
         return "trainer", user
     
     elif user in campers:
-        print("ACCESO CONCEDIDO")
+        limpiar()
+        print("\nACCESO CONCEDIDO")
         print(f"Bienvenido Camper {campers[user]['nombres']}")
         pausar()
         return "camper", user
     
-    else:
-        print("Usuario No Encontrado")
-        pausar()
-        return None
+    
+    print("Usuario No Encontrado")
+    pausar()
+        

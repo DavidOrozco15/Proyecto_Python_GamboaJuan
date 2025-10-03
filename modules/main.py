@@ -15,9 +15,9 @@ def main():
                     case "coordinador":
                         menuCoordinador()
                     case "trainer":
-                        menuTrainer()
+                        menuTrainer(user)
                     case "camper":
-                        menuCamper()
+                        menuCamper(user)
             case 0:
                 print("¡Hasta luego! 👋")
                 break

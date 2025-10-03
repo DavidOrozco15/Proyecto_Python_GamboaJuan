@@ -1,14 +1,11 @@
-from modules.utils import cargar, limpiar, pausar
+from modules.utils import cargar, limpiar, pausar, validadorCamperNoExiste
 
 def consultarInfoCamper(IDcamper):
     limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
 
-    if IDcamper not in campers:
-        print("❌ No se encontró información del camper.")
-        pausar()
-        return
+    validadorCamperNoExiste(IDcamper, campers)
 
     info = campers[IDcamper]
     print("\nInformación Personal del Camper:")

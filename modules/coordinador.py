@@ -93,7 +93,6 @@ def registrarNotas():
     campers = cargar(ruta)
 
     IDcamper = val("Ingrese el numero de identificacion: ") #valida que la entrada no este vacia
-    validadorCamper(IDcamper, campers) #Valida que no este en campers
     validadorCamperNoExiste(IDcamper, campers)
 
     if IDcamper in campers:
@@ -108,14 +107,10 @@ def registrarNotas():
     if promedio >= 60:
         campers[IDcamper]["estado"] = "aprobado"
         print("El Camper aprobo exitosamente.")
-        pausar()
     elif promedio < 60:
         print("El Camper debe volver a intentarlo.")
         campers[IDcamper]["estado"] = "en proceso de ingreso"
-        pausar()
-    else:
-        None
-
+    
 
     campers[IDcamper]["notaInicial"] = {
         "teorica": notaT,
@@ -194,8 +189,6 @@ def crearRuta():
         if 1 <= seleccion <= len(salones):
             salonSeleccionado = salones[seleccion - 1]
             break
-        else:
-            print("❌ Selección inválida. Intente nuevamente.")
 
     # Horarios disponibles según salón
     ocupados_por_salon = {}
@@ -209,6 +202,7 @@ def crearRuta():
     disponibles = [h for h in horarios if h not in ocupados_por_salon.get(salonSeleccionado, [])]
     if not disponibles:
         print(f"❌ No hay horarios disponibles para {salonSeleccionado}.")
+        pausar()
         return
 
     print(f"\nHorarios disponibles para {salonSeleccionado}:")
@@ -219,8 +213,6 @@ def crearRuta():
         if 1 <= seleccion_horario <= len(disponibles):
             horarioSeleccionado = [disponibles[seleccion_horario - 1]]  # se guarda como lista
             break
-        else:
-            print("❌ Selección inválida. Intente nuevamente.")
 
     # Crear la ruta
     nuevaRuta = {
@@ -249,16 +241,18 @@ def cambiarEstado():
     campers = cargar(ruta)
 
     IDcamper = val("Ingrese el numero de identificacion: ") #valida que la entrada no este vacia
-    validadorCamper(IDcamper, campers) #Valida que no este en campers
     validadorCamperNoExiste(IDcamper, campers)
 
     Id = campers[IDcamper]
-    print(f"\n Camper ID:{IDcamper} | Nombre: {Id['nombres']} Estado: {Id['estado']}")
+    print(f"\nCamper ID:{IDcamper} | Nombre: {Id['nombres']} Estado: {Id['estado']}")
+    print()
 
-    print(estados).strip
+    for i, estado in enumerate(estados, start=1):
+        print(f"{i}. {estado}")
+
     while True:
-        nuevoEstado = val("Ingrese el nuevo estado de los mostrados: ")
-        if validarEstado(nuevoEstado):
+        nuevoEstado = val("\nIngrese el nuevo estado de los mostrados: ")
+        if validarEstado(nuevoEstado, estados):
             break  # estado válido, salimos del bucle
         else:
             print("❌ Estado inválido. Debe ser uno de:", ", ".join(estados))
@@ -276,16 +270,14 @@ def asignarTrainerRuta():
 
     print("\n----RUTAS DISPONIBLES----")
     for i, (nombreRuta, info) in enumerate(rutaRutas.items(), start=1):
-        print(f"{i}. {nombreRuta} | Capacidad: {info['capacidad_max']} | Salón: {info['salon']} | Trainer: {info.get('trainer_encargado', 'No asignado')}")
+        print(f"{i}. {nombreRuta} | Capacidad: {info['capacidadMax']} | Salón: {info['salon']} | Trainer: {info.get('trainer_encargado', 'No asignado')}")
     
     while True:
         opcion = pedirEntero("Seleccione una ruta: ")
         if 1 <= opcion <= len(rutas):
             rutaSeleccionada = list(rutas.keys())[opcion - 1]
             break
-        else:
-            print("❌ Selección inválida. Intente nuevamente.")
-
+        
     print("\n----TRAINERS DISPONIBLES----")
     for i, (IDtrainer, info) in enumerate(trainers.items(), start=1):
         print(f"{i}. {info['nombre']} {info['apellido']} | ID: {IDtrainer}")
@@ -295,8 +287,6 @@ def asignarTrainerRuta():
         if 1 <= opcion <= len(trainers):
             trainerSeleccionado = list(trainers.keys())[opcion - 1]
             break
-        else:
-            print("❌ Selección inválida. Intente nuevamente.")
 
     rutas[rutaSeleccionada]["trainerEncargado"] = trainerSeleccionado
     guardar(rutaRutas, rutas)
@@ -322,8 +312,6 @@ def matricularCamper():
         if 1 <= opcion <= len(campersAprobados):
             camperSeleccionado = list(campersAprobados.keys())[opcion - 1]
             break
-        else:
-            print("❌ Selección inválida. Intente nuevamente.")
 
     print("\n---- RUTAS DISPONIBLES ----")
 
@@ -347,8 +335,6 @@ def matricularCamper():
         if opcion in rutasDisponibles:
             rutaSeleccionada = rutasDisponibles[opcion]
             break
-        else:
-            print("❌ Selección inválida o ruta llena. Intente nuevamente.")
 
     fechaInicio = val("Ingrese fecha de inicio (YYYY-MM-DD): ")
     fechaFin = val("Ingrese fecha de fin (YYYY-MM-DD): ")

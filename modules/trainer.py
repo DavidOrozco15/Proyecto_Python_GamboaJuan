@@ -21,7 +21,7 @@ def listarCampersAsignados(IDtrainer):
             else:
                 for IDcamper in campersAsignados:
                     info = campers.get(IDcamper, {})
-                    print(f" ID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} | Riesgo: {info.get('riesgo','')}")
+                    print(f" ID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} ")
     if not encontrado:
         print("No tienes rutas asignadas Actualmente")
         pausar()
@@ -63,11 +63,8 @@ def registrarNotasTrainer(IDtrainer):
         print(f"{i}. {IDcamper} | {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}")
 
     # Seleccionar camper
-    try:
         opcion = pedirEntero("Seleccione un camper: ")
         IDcamperSeleccionado = list(matriculas.keys())[opcion - 1]
-    except (ValueError, IndexError):
-        print("❌ Opción inválida.")
         return
 
     # Seleccionar módulo
@@ -80,21 +77,14 @@ def registrarNotasTrainer(IDtrainer):
     for i, modulo in enumerate(modulos.keys(), start=1):
         print(f"{i}. {modulo}")
 
-    try:
         opcionModulo = pedirEntero(input("Seleccione un módulo: "))
         nombreModulo = list(modulos.keys())[opcionModulo - 1]
-    except (ValueError, IndexError):
-        print("❌ Opción inválida.")
         return
 
     # Ingresar notas
-    try:
-        notaT = pedirFloat("Ingrese nota teórica (0-100): ")
-        notaP = pedirFloat("Ingrese nota práctica (0-100): ")
-        notaQ = pedirFloat("Ingrese nota quiz (0-100): ")
-    except ValueError:
-        print("❌ Debes ingresar números válidos.")
-        return
+    notaT = pedirFloat("Ingrese nota teórica (0-100): ")
+    notaP = pedirFloat("Ingrese nota práctica (0-100): ")
+    notaQ = pedirFloat("Ingrese nota quiz (0-100): ")
 
     promedio = notaT * 0.3 + notaP * 0.6 + notaQ * 0.1
 

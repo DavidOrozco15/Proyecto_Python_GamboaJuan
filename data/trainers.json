@@ -1,2 +1,10 @@
 {
+    "andres": {
+        "nombres": "andres",
+        "apellidos": "gamboa",
+        "telefono": "312121",
+        "correo": "@gamil",
+        "estado": "activo",
+        "rutasAsignadas": []
+    }
 }

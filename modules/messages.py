@@ -1,36 +1,36 @@
-from utils import pausar, limpiar
+from modules.utils import pausar, limpiar
 
 def menuLog():
     limpiar()
-    print("\n----CAMPUSLANDS ERP----")
-    print("1. Iniciar Sesion👤")
+    print("----CAMPUSLANDS ERP----")
+    print("\n1. Iniciar Sesion👤")
     print("0. Salir 👋")
     try:
-            opcion = int(input("Seleccione una opcion: "))
+            opcion = int(input("\nSeleccione una opcion: "))
             if opcion in {0, 1}:
                 return opcion
             else:
-                print("Error: Opción inválida. Intente nuevamente.")
+                print("\nError: Opción inválida. Intente nuevamente.")
                 pausar()
     except ValueError:
-            print("Error: Debe ingresar un número entero.")
+            print("\nError: Debe ingresar un número entero.")
             pausar()
 
 def menuCoordinador():
     limpiar()
-    print("\n----BIENVENIDO COORDINADOR 🙍‍♂️----")
-    print("1. Registrar Camper 👨‍🎓")
-    print("2. Registrar Trainer")
-    print("3. Crear Ruta de entrenamiento")
-    print("4. Cambiar Estados Manuales")
-    print("5. Registrar Notas")
-    print("6. Asignar Trainer Ruta")
-    print("7. Asignar Matricula")
-    print("8. Consultar Riesgo Camper")
-    print("9. Reportes")
-    print("0. Cerrar Sesion")
+    print("----BIENVENIDO COORDINADOR 🙍‍♂️----")
+    print("\n1. Registrar Camper 👨‍🎓")
+    print("2. Registrar Trainer 👨‍⚕️")
+    print("3. Crear Ruta de entrenamiento 💪")
+    print("4. Cambiar Estados Manuales 🔴🟡🟢")
+    print("5. Registrar Notas 📔")
+    print("6. Asignar Trainer Ruta 🙆")
+    print("7. Asignar Matricula 📚")
+    print("8. Consultar Riesgo Camper 📉")
+    print("9. Reportes 📝")
+    print("0. Cerrar Sesion 👋")
     try:
-            opcion = int(input("Seleccione una opcion: "))
+            opcion = int(input("\nSeleccione una opcion: "))
             if opcion in {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}:
                 return opcion
             else:
