@@ -1,5 +1,5 @@
 import json
-from modules.utils import cargar, guardar, val, validadorCamper, validadorTrainer, valFloat, validadorCamperNoExiste, validarEstado
+from modules.utils import cargar, guardar, val, validadorCamper, validadorTrainer, validadorCamperNoExiste, validarEstado, validadorRuta, validadorTrainerNoExiste, ValidadorRutaNoExiste, pedirEntero, pedirFloat, pausar, limpiar
 import modules.messages as msg
 
 #Tuplas
@@ -20,6 +20,7 @@ riesgos = (
 
 
 def registrarCamper():
+    limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
     
@@ -57,8 +58,10 @@ def registrarCamper():
     guardar(ruta, campers)
 
     print(f"✅ Camper {nombres} {apellidos} registrado con éxito.")
+    pausar()
 
 def registrarTrainer():
+    limpiar()
     ruta = "data/trainers.json"
     trainers = cargar(ruta)
 
@@ -82,8 +85,10 @@ def registrarTrainer():
 
     trainers[IDtrainer] = trainer
     guardar(ruta, trainers)
+    pausar()
 
 def registrarNotas():
+    limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
 
@@ -95,17 +100,19 @@ def registrarNotas():
         Id = campers[IDcamper]
         print(f"\n Camper ID:{IDcamper} | Nombre: {Id['nombres']} Estado: {Id['estado']}")
 
-    notaT = valFloat("Ingresa el valor de la Nota Teorica (0-100)")
-    notaP = valFloat("Ingresa el valor de la Nota Practica (0-100)")
+    notaT = pedirFloat("Ingresa el valor de la Nota Teorica (0-100)")
+    notaP = pedirFloat("Ingresa el valor de la Nota Practica (0-100)")
 
     promedio = (notaT + notaP)/2
 
     if promedio >= 60:
         campers[IDcamper]["estado"] = "aprobado"
         print("El Camper aprobo exitosamente.")
+        pausar()
     elif promedio < 60:
         print("El Camper debe volver a intentarlo.")
         campers[IDcamper]["estado"] = "en proceso de ingreso"
+        pausar()
     else:
         None
 
@@ -118,11 +125,10 @@ def registrarNotas():
     guardar(ruta, campers)
 
     print(f"Promedio final: {promedio:.2f} | Estado: {campers[IDcamper]['estado']}")
+    pausar()
 
 def crearRuta():
-    import modules.utils as u  # si tienes funciones como cargar y guardar
-    from modules import main as m
-
+    limpiar()
     horarios = ["08:00-12:00", "12:00-16:00", "16:00-20:00"]
     salones = ["salon 1", "salon 2", "salon 3"]
 
@@ -133,41 +139,41 @@ def crearRuta():
     }
 
     ruta = "data/rutas.json"
-    rutas = u.cargar(ruta)
+    rutas = cargar(ruta)
 
     
-    nombreRuta = input("Ingrese el nombre de la ruta: ")
+    nombreRuta = val("Ingrese el nombre de la ruta: ")
     # si muestras rutas fijas
     msg.rutasFijas()
     # Elegir Programación Formal
-    print("Programación Formal (escoge una opción): ")
+    print("Programación Formal: ")
     print("1. Java | 2. JavaScript | 3. C#")
-    formal = input("Seleccione: ")
-    if formal == "1":
+    formal = pedirEntero("Seleccione una: ")
+    if formal == 1:
         formal = "Java"
-    elif formal == "2":
+    elif formal == 2:
         formal = "JavaScript"
-    elif formal == "3":
+    elif formal == 3:
         formal = "C#"
 
     # Elegir Backend
-    print("Backend (escoge una opción): ")
+    print("Backend: ")
     print("1. NodeJS | 2. SpringBoot | 3. Netcore | 4. Express")
-    backend = input("Seleccione: ")
-    if backend == "1":
+    backend = pedirEntero("Seleccione una: ")
+    if backend == 1:
         backend = "NodeJS"
-    elif backend == "2":
+    elif backend == 2:
         backend = "SpringBoot"
-    elif backend == "3":
+    elif backend == 3:
         backend = "Netcore"
-    elif backend == "4":
+    elif backend == 4:
         backend = "Express"
 
     # Elegir Bases de Datos (opcional, se pueden escoger dos)
     print("\nBases de datos disponibles (escoge hasta 2, separados por coma):")
     for i, db in enumerate(modulosRuta["Bases de datos"], 1):
         print(f"{i}. {db}")
-    db_input = input("Ingrese números separados por coma (Enter para ninguna): ")
+    db_input = pedirEntero("Ingrese números separados por coma (Enter para ninguna): ")
     basesSeleccionadas = []
     if db_input.strip():
         indices = db_input.split(",")
@@ -176,7 +182,7 @@ def crearRuta():
                 basesSeleccionadas.append(modulosRuta["Bases de datos"][int(ind.strip())-1])
 
     # Capacidad
-    capacidad = input("Ingrese la capacidad máxima de la ruta (Enter para 33): ")
+    capacidad = pedirEntero("Ingrese la capacidad máxima de la ruta (Enter para 33): ")
     capacidad = int(capacidad) if capacidad.strip() else 33
 
     # Selección de salón
@@ -184,7 +190,7 @@ def crearRuta():
     for i, salon in enumerate(salones, 1):
         print(f"{i}. {salon}")
     while True:
-        seleccion = int(input("Seleccione un salon de entrenamiento (1-3): "))
+        seleccion = pedirEntero("Seleccione un salon de entrenamiento (1-3): ")
         if 1 <= seleccion <= len(salones):
             salonSeleccionado = salones[seleccion - 1]
             break
@@ -209,7 +215,7 @@ def crearRuta():
     for i, h in enumerate(disponibles, 1):
         print(f"{i}. {h}")
     while True:
-        seleccion_horario = int(input("Seleccione un horario: "))
+        seleccion_horario = pedirEntero("Seleccione un horario: ")
         if 1 <= seleccion_horario <= len(disponibles):
             horarioSeleccionado = [disponibles[seleccion_horario - 1]]  # se guarda como lista
             break
@@ -233,10 +239,12 @@ def crearRuta():
     }
 
     rutas[nombreRuta] = nuevaRuta
-    u.guardar(ruta, rutas)
+    guardar(ruta, rutas)
     print(f"✅ Ruta '{nombreRuta}' creada correctamente en {salonSeleccionado} con horario {horarioSeleccionado[0]}.")
+    pausar()
 
 def cambiarEstado():
+    limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
 
@@ -249,7 +257,7 @@ def cambiarEstado():
 
     print(estados).strip
     while True:
-        nuevoEstado = input("Ingrese el nuevo estado de los mostrados: ")
+        nuevoEstado = val("Ingrese el nuevo estado de los mostrados: ")
         if validarEstado(nuevoEstado):
             break  # estado válido, salimos del bucle
         else:
@@ -257,8 +265,10 @@ def cambiarEstado():
     
     campers[IDcamper]["estado"] = nuevoEstado
     guardar(ruta, campers)
+    pausar()
 
 def asignarTrainerRuta():
+    limpiar()
     rutaTrainers = "data/trainers.json"
     rutaRutas = "data/rutas.json"
     trainers = cargar(rutaTrainers)
@@ -269,7 +279,7 @@ def asignarTrainerRuta():
         print(f"{i}. {nombreRuta} | Capacidad: {info['capacidad_max']} | Salón: {info['salon']} | Trainer: {info.get('trainer_encargado', 'No asignado')}")
     
     while True:
-        opcion = int(input("Seleccione una ruta: "))
+        opcion = pedirEntero("Seleccione una ruta: ")
         if 1 <= opcion <= len(rutas):
             rutaSeleccionada = list(rutas.keys())[opcion - 1]
             break
@@ -281,7 +291,7 @@ def asignarTrainerRuta():
         print(f"{i}. {info['nombre']} {info['apellido']} | ID: {IDtrainer}")
 
     while True:
-        opcion = int(input("Seleccione un trainer: "))
+        opcion = pedirEntero("Seleccione un trainer: ")
         if 1 <= opcion <= len(trainers):
             trainerSeleccionado = list(trainers.keys())[opcion - 1]
             break
@@ -292,8 +302,10 @@ def asignarTrainerRuta():
     guardar(rutaRutas, rutas)
 
     print(f"\n✅ Trainer '{trainers[trainerSeleccionado]['nombres']} {trainers[trainerSeleccionado]['apellidos']}' asignado correctamente a la ruta '{rutaSeleccionada}'.")
+    pausar()
 
 def matricularCamper():
+    limpiar()
     rutaCampers = "data/campers.json"
     rutaRutas = "data/rutas.json"
     campers = cargar(rutaCampers)
@@ -306,7 +318,7 @@ def matricularCamper():
         print(f"{IDcamper}: {info['nombres']} {info['apellidos']}")
 
     while True:
-        opcion = int(input("Seleccione un camper: "))
+        opcion = pedirEntero("Seleccione un camper: ")
         if 1 <= opcion <= len(campersAprobados):
             camperSeleccionado = list(campersAprobados.keys())[opcion - 1]
             break
@@ -331,15 +343,15 @@ def matricularCamper():
         contador += 1
 
     while True:
-        opcion = int(input("Seleccione una ruta disponible: "))
+        opcion = pedirEntero("Seleccione una ruta disponible: ")
         if opcion in rutasDisponibles:
             rutaSeleccionada = rutasDisponibles[opcion]
             break
         else:
             print("❌ Selección inválida o ruta llena. Intente nuevamente.")
 
-    fechaInicio = input("Ingrese fecha de inicio (YYYY-MM-DD): ")
-    fechaFin = input("Ingrese fecha de fin (YYYY-MM-DD): ")
+    fechaInicio = val("Ingrese fecha de inicio (YYYY-MM-DD): ")
+    fechaFin = val("Ingrese fecha de fin (YYYY-MM-DD): ")
                             #revisa si existe, si no la crea
     rutas[rutaSeleccionada].setdefault("campersAsignados", []).append(camperSeleccionado)
 
@@ -354,8 +366,10 @@ def matricularCamper():
     guardar(rutaCampers, campers)
     guardar(rutaRutas, rutas)
     print(f"\n✅ Camper '{campers[camperSeleccionado]['nombres']} {campers[camperSeleccionado]['apellidos']}' matriculado en la ruta '{rutaSeleccionada}' con éxito.")
+    pausar()
 
 def consultarCamperEnRiesgo():
+    limpiar()
     rutaCampers = "data/campers.json"
     rutaRutas = "data/rutas.json"
     campers = cargar(rutaCampers)
@@ -397,8 +411,10 @@ def consultarCamperEnRiesgo():
 
     guardar(rutaCampers, campers)
     print("\n✅ Se ha actualizado el riesgo de todos los campers inscritos según sus notas.")
+    pausar()
     
 def listarCampersInscritos():
+    limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
     
@@ -408,8 +424,10 @@ def listarCampersInscritos():
     for IDcamper, info in campersInscritos.items():
         print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
         print("-"*20)
+    pausar()
 
 def listarCampersAprobados():
+    limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
     
@@ -419,19 +437,23 @@ def listarCampersAprobados():
     for IDcamper, info in campersAprobados.items():
         print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
         print("-"*20)
+    pausar()
 
 def listarTrainers():
+    limpiar()
     ruta = "data/trainers.json"
     trainers = cargar(ruta)
     
     trainersActivos = {IDtrainer : info for IDcamper, info in trainers.items() if info["estado"] == "activo"}
 
-    print("\n----CAMPERS APROBADOS----")
+    print("\n----LISTA DE TRAINERS----")
     for IDtrainer, info in trainersActivos.items():
         print(f"ID: {IDtrainer}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
         print("-"*20)
-
+    pausar()
+    
 def listarCampersBajoRendimiento():
+    limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
     
@@ -441,8 +463,10 @@ def listarCampersBajoRendimiento():
     for IDcamper, info in campersRiesgo.items():
         print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Riesgo : {info['riesgo']}").strip()
         print("-"*20)
+    pausar()
 
 def listarRutaCampersTrainers():
+    limpiar()
     ruta = "data/rutas.json"
     rutaRutas = cargar(ruta)
     ruta = "data/campers.json"
@@ -470,8 +494,10 @@ def listarRutaCampersTrainers():
                 info = campers.get(IDcamper, {})
                 print(f"ID: {IDcamper} | Nombre: {info.get('nombres','')} {info.get('apellidos','')} | "f"Estado: {info.get('estado','')} | Riesgo: {info.get('riesgo','')}")
         print("-"*40)
+    pausar()
     
 def mostrarResultadosModulos():
+    limpiar()
     ruta = "data/rutas.json"
     rutaRutas = cargar(ruta)
     ruta = "data/campers.json"
@@ -526,3 +552,4 @@ def mostrarResultadosModulos():
         print(f"Aprobados ({len(aprobados)}): {', '.join(aprobados) if aprobados else 'Ninguno'}")
         print(f"Reprobados ({len(reprobados)}): {', '.join(reprobados) if reprobados else 'Ninguno'}")
         print("-"*50)
+    pausar()

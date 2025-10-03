@@ -2,6 +2,8 @@ import modules.utils as u
 import modules.messages as mgs
 import modules.login as l
 import modules.coordinador as c
+import modules.camper as cam
+import modules.trainer as train
 
 def main():
     while True:
@@ -22,7 +24,7 @@ def main():
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                u.limpiar()
+                
 
 def menuCoordinador():
     while True:
@@ -56,7 +58,7 @@ def menuCoordinador():
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                u.limpiar()
+                
 
 def menuReportes():
     while True:
@@ -64,62 +66,58 @@ def menuReportes():
         match opcion:
             case 1:
                 c.listarCampersInscritos()
-                pass
             case 2:
                 c.listarCampersAprobados()
-                pass
             case 3:
                 c.listarTrainers()
-                pass
             case 4:
                 c.listarCampersBajoRendimiento()
-                pass
             case 5:
                 c.listarRutaCampersTrainers()
-                pass
             case 6:
                 c.mostrarResultadosModulos()
-                pass
             case 0:
                 break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                u.limpiar()
+                
 
 def menuTrainer():
     while True:
         opcion = mgs.menuTrainer()
         match opcion:
             case 1:
-                # Registrar notas de campers
-                pass
+                train.listarCampersAsignados()
             case 2:
-                # Consultar campers de mis rutas
-                pass
+                train.registrarNotasTrainer()
+            case 3:
+                train.consultarNotasCampers()
+            case 4:
+                train.generarReporteCampers()
             case 0:
                 print("Sesión cerrada.")
                 break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                u.limpiar()
+                
 
 def menuCamper():
     while True:
         opcion = mgs.menuCamper()
         match opcion:
             case 1:
-                # Consultar mi ruta asignada
-                pass
+                cam.consultarInfoCamper()
             case 2:
-                # Consultar mis notas
-                pass
+                cam.consultarNotasCamper()
+            case 3:
+                cam.consultarRutaCamper()
             case 0:
                 print("Sesión cerrada.")
                 break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                u.limpiar()
+                
 

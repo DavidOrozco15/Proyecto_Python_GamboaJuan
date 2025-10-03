@@ -12,23 +12,29 @@ def pausar():
 def validacionOpcion():
     print("Error: Opción inválida. Intente nuevamente.")
 
+#Validacion de existencias
+
 def validadorCamper(IDcamper, campers):
     if IDcamper in campers:
         print("❌ Ya existe un camper con ese ID.")
         return False
     return True
 
-#Validacion
+def validadorTrainer(IDtrainer, trainers):
+    if IDtrainer in trainers:
+        print("❌ Ya existe un trainer con ese ID.")
+        return False
+    return True
+
+def validadorRuta(nombreRuta, rutas):
+    if nombreRuta in rutas:
+        print("❌ Ya existe una ruta con ese nombre.")
+        return False
+    return True
 
 def validadorCamperNoExiste(IDcamper, campers):
     if IDcamper not in campers:
         print("❌ No existe un camper con ese ID.")
-        return False
-    return True
-
-def validadorTrainer(IDtrainer, trainers):
-    if IDtrainer in trainers:
-        print("❌ Ya existe un Trainer con ese ID.")
         return False
     return True
 
@@ -38,16 +44,27 @@ def validadorTrainerNoExiste(IDtrainer, trainers):
         return False
     return True
 
-def valFloat(mensaje):
+def ValidadorRutaNoExiste(nombreRuta, rutaRutas):
+    if nombreRuta not in rutaRutas:
+        print("❌ No existe la ruta.")
+        return False
+    return True
+
+#Validacion de tipos de datos
+
+def pedirFloat(mensaje):
     while True:
+        dato = input(mensaje).strip()
+        
+        if not dato:  # si está vacío
+            print("❌ El campo no puede estar vacío. Intente de nuevo.")
+            continue
+
         try:
-            nota = float(input(mensaje))  # intenta convertir a float
-            if 0 <= nota <= 100:
-                return nota
-            else:
-                print("❌ La nota debe estar entre 0 y 100.")
+            valor = float(dato)  # intenta convertir a float
+            return valor
         except ValueError:
-            print("❌ Debes ingresar un número válido (puede tener decimales).")
+            print("❌ Debe ingresar un número válido (ej: 12.5).")
 
 def val(mensaje):
     while True:
@@ -57,7 +74,20 @@ def val(mensaje):
         else:
             return dato
         
-
+def pedirEntero(mensaje):
+    while True:
+        dato = input(mensaje).strip()
+        if not dato:
+            print("❌ El campo no puede estar vacío. Intente de nuevo.")
+            continue
+        try:
+            return int(dato)
+        except ValueError:
+            print("❌ Debe ingresar un número entero válido.")
+        
+ 
+ # Validacion de estado
+  
 def validarEstado(estado, estados):
     """
     Valida que el estado ingresado sea uno de los estados válidos.
@@ -66,7 +96,6 @@ def validarEstado(estado, estados):
     return estado in estados
 
 #JSON
-
 
 def cargar(ruta):
     try:

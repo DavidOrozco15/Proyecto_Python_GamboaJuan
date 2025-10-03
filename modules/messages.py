@@ -1,23 +1,23 @@
-import modules.utils as u
+from utils import pausar, limpiar
 
 def menuLog():
-    u.limpiar()
+    limpiar()
     print("\n----CAMPUSLANDS ERP----")
     print("1. Iniciar Sesion👤")
     print("0. Salir 👋")
     try:
-            opcion = int(input("Seleccione: "))
+            opcion = int(input("Seleccione una opcion: "))
             if opcion in {0, 1}:
                 return opcion
             else:
                 print("Error: Opción inválida. Intente nuevamente.")
-                u.pausar()
+                pausar()
     except ValueError:
             print("Error: Debe ingresar un número entero.")
-            u.pausar()
+            pausar()
 
 def menuCoordinador():
-    u.limpiar()
+    limpiar()
     print("\n----BIENVENIDO COORDINADOR 🙍‍♂️----")
     print("1. Registrar Camper 👨‍🎓")
     print("2. Registrar Trainer")
@@ -30,18 +30,18 @@ def menuCoordinador():
     print("9. Reportes")
     print("0. Cerrar Sesion")
     try:
-            opcion = int(input("Seleccione: "))
+            opcion = int(input("Seleccione una opcion: "))
             if opcion in {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}:
                 return opcion
             else:
                 print("Error: Opción inválida. Intente nuevamente.")
-                u.pausar()
+                pausar()
     except ValueError:
             print("Error: Debe ingresar un número entero.")
-            u.pausar()
+            pausar()
 
 def menuReportes():
-    u.limpiar()
+    limpiar()
     print("\n----MENÚ DE REPORTES 📊----")
     print("1. Listar campers en estado 'Inscrito'")
     print("2. Listar campers que aprobaron examen inicial")
@@ -51,52 +51,55 @@ def menuReportes():
     print("6. Mostrar aprobados y perdidos por módulo, ruta y trainer")
     print("0. Volver al menú anterior")
     try:
-        opcion = int(input("Seleccione: "))
+        opcion = int(input("Seleccione una opcion: "))
         if opcion in {1, 2, 3, 4, 5, 6, 0}:
             return opcion
         else:
             print("Error: Opción inválida. Intente nuevamente.")
-            u.pausar()
+            pausar()
     except ValueError:
         print("Error: Debe ingresar un número entero.")
-        u.pausar()
+        pausar()
 
 def menuTrainer():
-    u.limpiar()
+    limpiar()
     print("\n--- BIENVENIDO TRAINER ---")
-    print("1. Registrar notas de campers")
-    print("2. Consultar campers de mis rutas")
+    print("1. Listar Campers asignados")
+    print("2. Registrar Notas de Campers")
+    print("3. Consultar Notas de Campers")
+    print("4. Generar Reportes")
     print("0. Cerrar sesión")
     try:
-        opcion = int(input("Seleccione: "))
-        if opcion in {1, 2, 0}:
+        opcion = int(input("Seleccione una opcion: "))
+        if opcion in {1, 2, 3, 4, 0}:
             return opcion
         else:
             print("Error: Opción inválida. Intente nuevamente.")
-            u.pausar()
+            pausar()
     except ValueError:
         print("Error: Debe ingresar un número entero.")
-        u.pausar()
+        pausar()
 
 def menuCamper():
-    u.limpiar()
+    limpiar()
     print("\n--- MENÚ CAMPER ---")
-    print("1. Consultar mi ruta asignada")
+    print("1. Consultar mi informacion")
     print("2. Consultar mis notas")
+    print("3. Consultar mi ruta")
     print("0. Cerrar sesión")
     try:
-        opcion = int(input("Seleccione: "))
-        if opcion in {1, 2, 0}:
+        opcion = int(input("Seleccione una opcion: "))
+        if opcion in {1, 2, 3, 0}:
             return opcion
         else:
             print("Error: Opción inválida. Intente nuevamente.")
-            u.pausar()
+            pausar()
     except ValueError:
         print("Error: Debe ingresar un número entero.")
-        u.pausar()
+        pausar()
 
 def rutasFijas():
-    u.limpiar()
+    limpiar()
     print("\n---MODULOS FIJOS---")
     print("Fundamentos de Programacion: Introduccion a la algoritmia | PSeint | Python")
     print("Programacion Web: HTML | CSS | Bootstrap")
