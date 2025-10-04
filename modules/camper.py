@@ -21,6 +21,8 @@ def consultarNotasCamper(IDcamper):
     limpiar()
     rutaCampers = "data/campers.json"
     campers = cargar(rutaCampers)
+    rutaRutas = "data/rutas.json"
+    rutas = cargar(rutaRutas)
 
     camperInfo = campers.get(IDcamper, {})
     if not camperInfo:
@@ -28,16 +30,31 @@ def consultarNotasCamper(IDcamper):
         pausar()
         return
 
-    nota_inicial = camperInfo.get("notaInicial")
-    if not nota_inicial:
-        print(f"El camper {camperInfo.get('nombres', '')} {camperInfo.get('apellidos', '')} aún no tiene nota inicial registrada.")
+    ruta_asignada = camperInfo.get("ruta")
+    if not ruta_asignada or ruta_asignada not in rutas:
+        print("❌ No tienes ruta asignada o notas registradas.")
         pausar()
         return
 
-    print(f"\n📊 Nota inicial de {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}:")
-    print(f"   - Teórica: {nota_inicial.get('teorica', 'N/A')}")
-    print(f"   - Práctica: {nota_inicial.get('practica', 'N/A')}")
-    print(f"   - Promedio: {nota_inicial.get('promedio', 'N/A')}")
+    matricula = rutas[ruta_asignada].get("matriculas", {}).get(IDcamper, {})
+    modulos = matricula.get("modulos", {})
+
+    if not modulos:
+        print("❌ No tienes notas registradas aún.")
+        pausar()
+        return
+
+    print(f"\n📊 Notas de {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}:")
+    for mod_name, notas in modulos.items():
+        teorica = notas.get("teorica", "No registrada")
+        practica = notas.get("practica", "No registrada")
+        quiz = notas.get("quiz", "No registrada")
+        promedio = notas.get("promedio", "No calculado")
+        print(f"\nMódulo: {mod_name}")
+        print(f"   - Teórica: {teorica}")
+        print(f"   - Práctica: {practica}")
+        print(f"   - Quiz: {quiz}")
+        print(f"   - Promedio: {promedio}")
     pausar()
     
 def consultarRutaCamper(IDcamper):

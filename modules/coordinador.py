@@ -364,17 +364,21 @@ def matricularCamper():
 
     fechaInicio = pedirFecha("Ingrese fecha de inicio (YYYY-MM-DD): ")
     fechaFin = pedirFecha("Ingrese fecha de fin (YYYY-MM-DD): ")
-                            #revisa si existe, si no la crea
+    #revisa si existe, si no la crea
     campers_asignados = rutas[rutaSeleccionada].setdefault("campersAsignados", [])
     if camperSeleccionado not in campers_asignados:
         campers_asignados.append(camperSeleccionado)
 
     nota_inicial = campers[camperSeleccionado].get("notaInicial")
+    modulos = {"Nota Inicial": nota_inicial} if nota_inicial else {}
+    for mod_name in rutas[rutaSeleccionada]["modulos"]:
+        if mod_name not in modulos:
+            modulos[mod_name] = {}
     rutas[rutaSeleccionada].setdefault("matriculas", {})[camperSeleccionado] = {
         "fechaInicio": fechaInicio,
         "fechaFin": fechaFin,
         "trainer": rutas[rutaSeleccionada].get("trainerEncargado", "no asignado"),
-        "modulos": {"Nota Inicial": nota_inicial} if nota_inicial else {}
+        "modulos": modulos
     }
 
     campers[camperSeleccionado]["estado"] = "cursando"
@@ -427,6 +431,16 @@ def consultarCamperEnRiesgo():
                     campers[IDcamper]["riesgo"] = "bajo"
 
     guardar(rutaCampers, campers)
+
+    # Mostrar campers en riesgo alto
+    campersRiesgo = {ID: info for ID, info in campers.items() if info.get("riesgo") == "alto"}
+    if campersRiesgo:
+        print("\n---- CAMPERS EN RIESGO ALTO ----")
+        for IDcamper, info in campersRiesgo.items():
+            print(f"ID: {IDcamper} | Nombre: {info['nombres']} {info['apellidos']} | Riesgo: {info['riesgo']}")
+    else:
+        print("\n✅ No hay campers en riesgo alto actualmente.")
+
     print("\n✅ Se ha actualizado el riesgo de todos los campers inscritos según sus notas.")
     pausar()
     
@@ -447,10 +461,10 @@ def listarCampersAprobados():
     limpiar()
     ruta = "data/campers.json"
     campers = cargar(ruta)
-    
-    campersAprobados = {IDcamper : info for IDcamper, info in campers.items() if info["estado"] == "aprobado"}
 
-    print("\n----CAMPERS APROBADOS----")
+    campersAprobados = {IDcamper : info for IDcamper, info in campers.items() if "notaInicial" in info and info["notaInicial"]["promedio"] >= 60}
+
+    print("\n----CAMPERS QUE APROBARON LA PRUEBA INICIAL----")
     for IDcamper, info in campersAprobados.items():
         print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}")
         print("-"*20)

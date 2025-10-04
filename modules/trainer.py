@@ -68,17 +68,18 @@ def registrarNotasTrainer(IDtrainer):
 
     # Seleccionar módulo
     modulos = matriculas[IDcamperSeleccionado].get("modulos", {})
-    if not modulos:
-        print("⚠️ Este camper no tiene módulos asignados todavía.")
+    modulos_disponibles = {k: v for k, v in modulos.items() if k != "Nota Inicial"}
+    if not modulos_disponibles:
+        print("⚠️ Este camper no tiene módulos disponibles para calificar.")
         pausar()
         return
 
     print("\n---- MÓDULOS DISPONIBLES ----")
-    for i, modulo in enumerate(modulos.keys(), start=1):
+    for i, modulo in enumerate(modulos_disponibles.keys(), start=1):
         print(f"{i}. {modulo}")
 
     opcionModulo = pedirEntero("Seleccione un módulo: ")
-    nombreModulo = list(modulos.keys())[opcionModulo - 1]
+    nombreModulo = list(modulos_disponibles.keys())[opcionModulo - 1]
 
     # Ingresar notas
     notaT = pedirFloat("Ingrese nota teórica (0-100): ")

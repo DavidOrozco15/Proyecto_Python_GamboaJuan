@@ -16,5 +16,25 @@
         "rutasAsignadas": [
             "nuevaRuta"
         ]
+    },
+    "6666": {
+        "nombres": "tester",
+        "apellidos": "trainer",
+        "telefono": "3242324",
+        "correo": "@gmail",
+        "estado": "activo",
+        "rutasAsignadas": [
+            "NetCore"
+        ]
+    },
+    "2": {
+        "nombres": "miguel",
+        "apellidos": "lopez",
+        "telefono": "635412587",
+        "correo": "bbb.com",
+        "estado": "activo",
+        "rutasAsignadas": [
+            "Java"
+        ]
     }
 }
