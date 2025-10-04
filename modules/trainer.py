@@ -49,7 +49,7 @@ def registrarNotasTrainer(IDtrainer):
         return
 
     print(f"\n📚 Ruta asignada: {rutaAsignada}")
-    matriculas = rutas[rutaAsignada].get("matricula", {})
+    matriculas = rutas[rutaAsignada].get("matriculas", {})
 
     if not matriculas:
         print("⚠️ No hay campers matriculados en esta ruta todavía.")
@@ -63,23 +63,22 @@ def registrarNotasTrainer(IDtrainer):
         print(f"{i}. {IDcamper} | {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}")
 
     # Seleccionar camper
-        opcion = pedirEntero("Seleccione un camper: ")
-        IDcamperSeleccionado = list(matriculas.keys())[opcion - 1]
-        return
+    opcion = pedirEntero("Seleccione un camper: ")
+    IDcamperSeleccionado = list(matriculas.keys())[opcion - 1]
 
     # Seleccionar módulo
     modulos = matriculas[IDcamperSeleccionado].get("modulos", {})
     if not modulos:
         print("⚠️ Este camper no tiene módulos asignados todavía.")
+        pausar()
         return
 
     print("\n---- MÓDULOS DISPONIBLES ----")
     for i, modulo in enumerate(modulos.keys(), start=1):
         print(f"{i}. {modulo}")
 
-        opcionModulo = pedirEntero(input("Seleccione un módulo: "))
-        nombreModulo = list(modulos.keys())[opcionModulo - 1]
-        return
+    opcionModulo = pedirEntero("Seleccione un módulo: ")
+    nombreModulo = list(modulos.keys())[opcionModulo - 1]
 
     # Ingresar notas
     notaT = pedirFloat("Ingrese nota teórica (0-100): ")
@@ -89,7 +88,7 @@ def registrarNotasTrainer(IDtrainer):
     promedio = notaT * 0.3 + notaP * 0.6 + notaQ * 0.1
 
     # Guardar notas en rutas.json
-    rutas[rutaAsignada]["matricula"][IDcamperSeleccionado]["modulos"][nombreModulo] = {
+    rutas[rutaAsignada]["matriculas"][IDcamperSeleccionado]["modulos"][nombreModulo] = {
         "teorica": notaT,
         "practica": notaP,
         "quiz": notaQ,
@@ -130,7 +129,7 @@ def consultarNotasCampers(IDtrainer):
         return
 
     print(f"\n📚 Ruta asignada: {rutaAsignada}")
-    matriculas = rutas[rutaAsignada].get("matricula", {})
+    matriculas = rutas[rutaAsignada].get("matriculas", {})
 
     if not matriculas:
         print("⚠️ No hay campers matriculados en esta ruta todavía.")
@@ -187,23 +186,28 @@ def generarReporteCampers(IDtrainer):
             else:
                 for IDcamper in campersAsignados:
                     info = campers.get(IDcamper, {})
-                    notas = info.get("notas", {})
-                    
+                    infoMatricula = infoRuta.get("matriculas", {}).get(IDcamper, {})
+                    modulos = infoMatricula.get("modulos", {})
+
                     print(f"\n🧑 ID: {IDcamper}")
                     print(f"   Nombres : {info.get('nombres','')}")
                     print(f"   Apellidos : {info.get('apellidos','')}")
                     print(f"   Estado : {info.get('estado','')}")
                     print(f"   Riesgo : {info.get('riesgo','')}")
-                    
-                    if notas:
+
+                    if modulos:
                         print("   📘 Notas:")
-                        for modulo, nota in notas.items():
-                            print(f"      {modulo}: {nota}")
-                            pausar()
+                        for modulo, notas in modulos.items():
+                            print(f"      {modulo}:")
+                            print(f"         Teórica: {notas.get('teorica', 'No registrada')}")
+                            print(f"         Práctica: {notas.get('practica', 'No registrada')}")
+                            print(f"         Quiz: {notas.get('quiz', 'No registrada')}")
+                            print(f"         Promedio: {notas.get('promedio', 'No calculado')}")
                     else:
                         print("   📘 Notas: Sin registrar")
-            print("="*50)
-    pausar()
+                    
+                    print("="*50)
+            pausar()
     if not encontrado:
         print("❌ No tienes rutas asignadas actualmente.")
         pausar()

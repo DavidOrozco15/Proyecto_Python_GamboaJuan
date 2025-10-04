@@ -27,21 +27,17 @@ def consultarNotasCamper(IDcamper):
         print("❌ Camper no encontrado.")
         pausar()
         return
-    
-    notas = camperInfo.get("notas", {})
-    if not notas:
-        print(f"El camper {camperInfo.get('nombres', '')} {camperInfo.get('apellidos', '')} aún no tiene notas registradas.")
+
+    nota_inicial = camperInfo.get("notaInicial")
+    if not nota_inicial:
+        print(f"El camper {camperInfo.get('nombres', '')} {camperInfo.get('apellidos', '')} aún no tiene nota inicial registrada.")
         pausar()
         return
-    
-    print(f"\n📊 Notas de {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}:")
-    for nombreModulo, calificacion in notas.items():
-        print(f"   - {nombreModulo}: {calificacion}")
 
-    promedio = sum(notas.values()) / len(notas)
-    estado = "✅ APROBADO" if promedio >= 60 else "❌ REPROBADO"
-
-    print(f"\nPromedio final: {promedio:.2f} -> {estado}")
+    print(f"\n📊 Nota inicial de {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}:")
+    print(f"   - Teórica: {nota_inicial.get('teorica', 'N/A')}")
+    print(f"   - Práctica: {nota_inicial.get('practica', 'N/A')}")
+    print(f"   - Promedio: {nota_inicial.get('promedio', 'N/A')}")
     pausar()
     
 def consultarRutaCamper(IDcamper):

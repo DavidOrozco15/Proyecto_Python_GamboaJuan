@@ -1,21 +1,59 @@
 {
     "12345": {
-        "nombres": "juan",
-        "apellidos": "gamboa",
-        "direccion": "cra 33",
-        "acudiente": "maria",
+        "nombres": "Juan",
+        "apellidos": "Pérez",
+        "direccion": "Calle 123",
+        "acudiente": "María Pérez",
         "telefonos": {
-            "celular": "3123123213",
-            "fijo": "612212"
+            "celular": "3001234567",
+            "fijo": "1234567"
         },
         "estado": "cursando",
+        "riesgo": "bajo",
+        "ruta": "NodeJS",
+        "notas": {},
+        "notaInicial": {
+            "teorica": 80,
+            "practica": 90,
+            "promedio": 85
+        }
+    },
+    "54321": {
+        "nombres": "david",
+        "apellidos": "orozco",
+        "direccion": "cra 33",
+        "acudiente": "omaira",
+        "telefonos": {
+            "celular": "31241241",
+            "fijo": "641221"
+        },
+        "estado": "cursando",
+        "riesgo": "bajo",
+        "ruta": "nuevaRuta",
+        "notas": {},
+        "notaInicial": {
+            "teorica": 78.0,
+            "practica": 60.0,
+            "promedio": 69.0
+        }
+    },
+    "11111": {
+        "nombres": "hola",
+        "apellidos": "mundo",
+        "direccion": "casa",
+        "acudiente": "nose",
+        "telefonos": {
+            "celular": "211231231",
+            "fijo": "123123"
+        },
+        "estado": "en proceso de ingreso",
         "riesgo": "bajo",
         "ruta": null,
         "notas": {},
         "notaInicial": {
-            "teorica": 78.0,
-            "practica": 79.0,
-            "promedio": 78.5
+            "teorica": 20.0,
+            "practica": 45.0,
+            "promedio": 32.5
         }
     }
 }

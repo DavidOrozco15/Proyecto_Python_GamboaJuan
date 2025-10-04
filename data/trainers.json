@@ -6,5 +6,15 @@
         "correo": "@gamil",
         "estado": "activo",
         "rutasAsignadas": []
+    },
+    "67890": {
+        "nombres": "victor",
+        "apellidos": "ariztizabal",
+        "telefono": "31242141",
+        "correo": "@gmail.com",
+        "estado": "activo",
+        "rutasAsignadas": [
+            "nuevaRuta"
+        ]
     }
 }

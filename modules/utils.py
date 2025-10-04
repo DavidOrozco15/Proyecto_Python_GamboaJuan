@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 
 #Utils
 
@@ -107,3 +108,14 @@ def cargar(ruta):
 def guardar(ruta, data):
     with open(ruta, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+
+#datatime
+
+def pedirFecha(mensaje):
+    while True:
+        fecha = input(mensaje).strip()
+        try:
+            datetime.strptime(fecha, "%Y-%m-%d")
+            return fecha
+        except ValueError:
+            print("❌ Formato de fecha inválido. Debe ser YYYY-MM-DD.")

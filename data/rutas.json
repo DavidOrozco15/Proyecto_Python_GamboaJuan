@@ -101,5 +101,52 @@
         ],
         "trainerEncargado": "No asignado",
         "matriculas": {}
+    },
+    "nuevaRuta": {
+        "modulos": {
+            "Fundamentos de programación": [
+                "Introducción a la algoritmia",
+                "PSeInt",
+                "Python"
+            ],
+            "Programación Web": [
+                "HTML",
+                "CSS",
+                "Bootstrap"
+            ],
+            "Bases de datos": [
+                "MySQL",
+                "MongoDB"
+            ],
+            "Programación formal": [
+                "JavaScript"
+            ],
+            "Backend": [
+                "Netcore"
+            ]
+        },
+        "capacidadMax": 10,
+        "campersAsignados": [
+            "54321"
+        ],
+        "salon": "salon 2",
+        "horarios": [
+            "08:00-12:00"
+        ],
+        "trainerEncargado": "67890",
+        "matriculas": {
+            "54321": {
+                "fechaInicio": "2025-09-21",
+                "fechaFin": "2026-08-12",
+                "trainer": "67890",
+                "modulos": {
+                    "Nota Inicial": {
+                        "teorica": 78.0,
+                        "practica": 60.0,
+                        "promedio": 69.0
+                    }
+                }
+            }
+        }
     }
 }

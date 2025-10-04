@@ -1,5 +1,5 @@
 import json
-from modules.utils import cargar, guardar, val, validadorCamper, validadorTrainer, validadorCamperNoExiste, validarEstado, validadorRuta, validadorTrainerNoExiste, ValidadorRutaNoExiste, pedirEntero, pedirFloat, pausar, limpiar
+from modules.utils import cargar, guardar, val, validadorCamper, validadorTrainer, validadorCamperNoExiste, validarEstado, validadorRuta, validadorTrainerNoExiste, ValidadorRutaNoExiste, pedirEntero, pedirFloat, pausar, limpiar, pedirFecha
 import modules.messages as msg
 
 #Tuplas
@@ -168,17 +168,31 @@ def crearRuta():
     print("\nBases de datos disponibles (escoge hasta 2, separados por coma):")
     for i, db in enumerate(modulosRuta["Bases de datos"], 1):
         print(f"{i}. {db}")
-    db_input = pedirEntero("Ingrese números separados por coma (Enter para ninguna): ")
-    basesSeleccionadas = []
-    if db_input.strip():
-        indices = db_input.split(",")
-        for ind in indices[:2]:  # máximo 2
-            if ind.strip().isdigit() and 1 <= int(ind.strip()) <= len(modulosRuta["Bases de datos"]):
-                basesSeleccionadas.append(modulosRuta["Bases de datos"][int(ind.strip())-1])
+
+    while True:
+        db_input = input("Ingrese números separados por coma (Enter para ninguna): ").strip()
+        if not db_input:
+            basesSeleccionadas = []
+            break
+        indices = [x.strip() for x in db_input.split(",") if x.strip()]
+        if all(ind.isdigit() and 1 <= int(ind) <= len(modulosRuta["Bases de datos"]) for ind in indices) and len(indices) <= 2:
+            basesSeleccionadas = [modulosRuta["Bases de datos"][int(ind)-1] for ind in indices]
+            break
+        else:
+            print("❌ Entrada inválida. Debe ingresar hasta dos números válidos separados por coma.")
 
     # Capacidad
-    capacidad = pedirEntero("Ingrese la capacidad máxima de la ruta (Enter para 33): ")
-    capacidad = int(capacidad) if capacidad.strip() else 33
+    # Capacidad
+    while True:
+        capacidad_input = input("Ingrese la capacidad máxima de la ruta (Enter para 33): ").strip()
+        if not capacidad_input:
+            capacidad = 33
+            break
+        if capacidad_input.isdigit() and int(capacidad_input) > 0:
+            capacidad = int(capacidad_input)
+            break
+        else:
+            print("❌ Ingrese un número entero positivo o deje vacío para el valor por defecto (33).")
 
     # Selección de salón
     print("\nSalones de entrenamiento disponibles:")
@@ -270,7 +284,7 @@ def asignarTrainerRuta():
 
     print("----RUTAS DISPONIBLES----")
     for i, (nombreRuta, info) in enumerate(rutas.items(), start=1):
-        print(f"\n{i}. {nombreRuta} | Capacidad: {info['capacidadMax']} | Salón: {info['salon']} | Trainer: {info.get('trainer_encargado', 'No asignado')}")
+        print(f"\n{i}. {nombreRuta} | Capacidad: {info['capacidadMax']} | Salón: {info['salon']} | Trainer: {info.get('trainerEncargado', 'No asignado')}")
     
     while True:
         opcion = pedirEntero("\nSeleccione una ruta: ")
@@ -286,9 +300,16 @@ def asignarTrainerRuta():
         opcion = pedirEntero("\nSeleccione un trainer: ")
         if 1 <= opcion <= len(trainers):
             trainerSeleccionado = list(trainers.keys())[opcion - 1]
+            # Validar si el trainer ya tiene una ruta asignada
+            if trainers[trainerSeleccionado]["rutasAsignadas"]:
+                print("❌ Este trainer ya está asignado a una ruta. Seleccione otro trainer.")
+                continue
             break
 
     rutas[rutaSeleccionada]["trainerEncargado"] = trainerSeleccionado
+    if rutaSeleccionada not in trainers[trainerSeleccionado]["rutasAsignadas"]:
+        trainers[trainerSeleccionado]["rutasAsignadas"].append(rutaSeleccionada)
+    guardar(rutaTrainers, trainers)
     guardar(rutaRutas, rutas)
 
     print(f"\n✅ Trainer '{trainers[trainerSeleccionado]['nombres']} {trainers[trainerSeleccionado]['apellidos']}' asignado correctamente a la ruta '{rutaSeleccionada}'.")
@@ -313,6 +334,11 @@ def matricularCamper():
             camperSeleccionado = list(campersAprobados.keys())[opcion - 1]
             break
 
+    if campers[camperSeleccionado].get("ruta"):
+        print("❌ Este camper ya está asignado a una ruta.")
+        pausar()
+        return
+
     print("\n---- RUTAS DISPONIBLES ----")
 
     rutasDisponibles = {}
@@ -336,18 +362,23 @@ def matricularCamper():
             rutaSeleccionada = rutasDisponibles[opcion]
             break
 
-    fechaInicio = val("Ingrese fecha de inicio (YYYY-MM-DD): ")
-    fechaFin = val("Ingrese fecha de fin (YYYY-MM-DD): ")
+    fechaInicio = pedirFecha("Ingrese fecha de inicio (YYYY-MM-DD): ")
+    fechaFin = pedirFecha("Ingrese fecha de fin (YYYY-MM-DD): ")
                             #revisa si existe, si no la crea
-    rutas[rutaSeleccionada].setdefault("campersAsignados", []).append(camperSeleccionado)
+    campers_asignados = rutas[rutaSeleccionada].setdefault("campersAsignados", [])
+    if camperSeleccionado not in campers_asignados:
+        campers_asignados.append(camperSeleccionado)
 
+    nota_inicial = campers[camperSeleccionado].get("notaInicial")
     rutas[rutaSeleccionada].setdefault("matriculas", {})[camperSeleccionado] = {
         "fechaInicio": fechaInicio,
         "fechaFin": fechaFin,
-        "trainer": rutas[rutaSeleccionada].get("trainerEncargado", "no asignado")
+        "trainer": rutas[rutaSeleccionada].get("trainerEncargado", "no asignado"),
+        "modulos": {"Nota Inicial": nota_inicial} if nota_inicial else {}
     }
 
     campers[camperSeleccionado]["estado"] = "cursando"
+    campers[camperSeleccionado]["ruta"] = rutaSeleccionada
 
     guardar(rutaCampers, campers)
     guardar(rutaRutas, rutas)
@@ -408,7 +439,7 @@ def listarCampersInscritos():
 
     print("\n----CAMPERS INSCRITOS----")
     for IDcamper, info in campersInscritos.items():
-        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
+        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}")
         print("-"*20)
     pausar()
 
@@ -421,7 +452,7 @@ def listarCampersAprobados():
 
     print("\n----CAMPERS APROBADOS----")
     for IDcamper, info in campersAprobados.items():
-        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
+        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}")
         print("-"*20)
     pausar()
 
@@ -430,11 +461,11 @@ def listarTrainers():
     ruta = "data/trainers.json"
     trainers = cargar(ruta)
     
-    trainersActivos = {IDtrainer : info for IDcamper, info in trainers.items() if info["estado"] == "activo"}
+    trainersActivos = {IDtrainer : info for IDtrainer, info in trainers.items() if info["estado"] == "activo"}
 
     print("\n----LISTA DE TRAINERS----")
     for IDtrainer, info in trainersActivos.items():
-        print(f"ID: {IDtrainer}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}").strip()
+        print(f"ID: {IDtrainer}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}")
         print("-"*20)
     pausar()
     
@@ -445,9 +476,9 @@ def listarCampersBajoRendimiento():
     
     campersRiesgo = {IDcamper : info for IDcamper, info in campers.items() if info["riesgo"] == "alto"}
 
-    print("\n----CAMPERS APROBADOS----")
+    print("\n----CAMPERS BAJO RENDIMIENTO----")
     for IDcamper, info in campersRiesgo.items():
-        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Riesgo : {info['riesgo']}").strip()
+        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Riesgo : {info['riesgo']}")
         print("-"*20)
     pausar()
 
@@ -501,41 +532,41 @@ def mostrarResultadosModulos():
             
         print(f"\n---- RUTA: {nombreRuta} | Trainer: {trainerNombre} ----")
         
-        matriculas = infoRuta.get("matricula", {})
+        matriculas = infoRuta.get("matriculas", {})
         
         modulosResumen = {}
         
-    for IDcamper, infoMatricula in matriculas.items():
-        camperInfo = campers.get(IDcamper, {})
-        modulos = infoMatricula.get("modulos", {})
+        for IDcamper, infoMatricula in matriculas.items():
+            camperInfo = campers.get(IDcamper, {})
+            modulos = infoMatricula.get("modulos", {})
 
-        for nombreModulo, notas in modulos.items():
-            # Calcular promedio ponderado
-            notaT = notas.get("teorica", 0)
-            notaP = notas.get("practica", 0)
-            notaQ = notas.get("quiz", 0)
-            promedio = notaT*0.3 + notaP*0.6 + notaQ*0.1
+            for nombreModulo, notas in modulos.items():
+                # Calcular promedio ponderado
+                notaT = notas.get("teorica", 0)
+                notaP = notas.get("practica", 0)
+                notaQ = notas.get("quiz", 0)
+                promedio = notaT*0.3 + notaP*0.6 + notaQ*0.1
 
-            # Inicializar diccionario del módulo si no existe
-            if nombreModulo not in modulosResumen:
-                modulosResumen[nombreModulo] = {'aprobados': [], 'reprobados': []}
+                # Inicializar diccionario del módulo si no existe
+                if nombreModulo not in modulosResumen:
+                    modulosResumen[nombreModulo] = {'aprobados': [], 'reprobados': []}
 
-            # Nombre completo del camper
-            nombreCompleto = camperInfo.get('nombres','') + " " + camperInfo.get('apellidos','')
+                # Nombre completo del camper
+                nombreCompleto = camperInfo.get('nombres','') + " " + camperInfo.get('apellidos','')
 
-            # Clasificar según promedio
-            if promedio >= 60:
-                modulosResumen[nombreModulo]['aprobados'].append(nombreCompleto)
-            else:
-                modulosResumen[nombreModulo]['reprobados'].append(nombreCompleto)
+                # Clasificar según promedio
+                if promedio >= 60:
+                    modulosResumen[nombreModulo]['aprobados'].append(nombreCompleto)
+                else:
+                    modulosResumen[nombreModulo]['reprobados'].append(nombreCompleto)
 
-# Imprimir resumen por módulo
-    for nombreModulo, datos in modulosResumen.items():
-        aprobados = datos['aprobados']
-        reprobados = datos['reprobados']
+        # Imprimir resumen por módulo
+        for nombreModulo, datos in modulosResumen.items():
+            aprobados = datos['aprobados']
+            reprobados = datos['reprobados']
 
-        print(f"\nMódulo: {nombreModulo}")
-        print(f"Aprobados ({len(aprobados)}): {', '.join(aprobados) if aprobados else 'Ninguno'}")
-        print(f"Reprobados ({len(reprobados)}): {', '.join(reprobados) if reprobados else 'Ninguno'}")
-        print("-"*50)
+            print(f"\nMódulo: {nombreModulo}")
+            print(f"Aprobados ({len(aprobados)}): {', '.join(aprobados) if aprobados else 'Ninguno'}")
+            print(f"Reprobados ({len(reprobados)}): {', '.join(reprobados) if reprobados else 'Ninguno'}")
+            print("-"*50)
     pausar()
