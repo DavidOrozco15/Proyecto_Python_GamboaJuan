@@ -8,8 +8,8 @@ def consultarInfoCamper(IDcamper):
     validadorCamperNoExiste(IDcamper, campers)
 
     info = campers[IDcamper]
-    print("\nInformación Personal del Camper:")
-    print(f"ID: {IDcamper}")
+    print("Información Personal del Camper:")
+    print(f"\nID: {IDcamper}")
     print(f"Nombres: {info.get('nombres', '')}")
     print(f"Apellidos: {info.get('apellidos', '')}")
     print(f"Estado: {info.get('estado', '')}")
@@ -59,7 +59,7 @@ def consultarRutaCamper(IDcamper):
             encontrado = True
             trainerID = infoRuta.get("trainerEncargado", None)
             trainerNombre = (
-                f"{trainers[trainerID]['nombre']} {trainers[trainerID]['apellido']}"
+                f"{trainers[trainerID]['nombres']} {trainers[trainerID]['apellidos']}"
                 if trainerID and trainerID in trainers else "No asignado"
             )
 
@@ -71,7 +71,8 @@ def consultarRutaCamper(IDcamper):
             print("\n📌 Módulos de la ruta:")
             for modulo, temas in infoRuta.get("modulos", {}).items():
                 print(f"  - {modulo}: {', '.join(temas)}")
-                pausar()
+        
+    pausar()
 
     if not encontrado:
         print("❌ No estás asignado a ninguna ruta actualmente.")

@@ -23,13 +23,22 @@
             ]
         },
         "capacidadMax": 23,
-        "campersAsignados": [],
+        "campersAsignados": [
+            "12345",
+            "12345"
+        ],
         "salon": "salon 1",
         "horarios": [
             "08:00-12:00"
         ],
-        "trainerEncargado": "No asignado",
-        "matriculas": {}
+        "trainerEncargado": "andres",
+        "matriculas": {
+            "12345": {
+                "fechaInicio": "123412",
+                "fechaFin": "123211",
+                "trainer": "andres"
+            }
+        }
     },
     "Java": {
         "modulos": {

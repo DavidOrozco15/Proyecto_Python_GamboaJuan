@@ -1,46 +1,45 @@
+# main.py
 import modules.utils as u
-import modules.messages as mgs
+import modules.messages as m
 import modules.login as l
 import modules.coordinador as c
 import modules.camper as cam
 import modules.trainer as train
 
+# MENÚ PRINCIPAL
 def main():
     while True:
-        opcion = mgs.menuLog()
+        opcion = m.menuLog()
         match opcion:
             case 1:
                 rol, user = l.login()
                 match rol:
                     case "coordinador":
-                        menuCoordinador()
+                        mainCoordinador()  # llama al main del coordinador
                     case "trainer":
-                        menuTrainer(user)
+                        mainTrainer(user)
                     case "camper":
-                        menuCamper(user)
+                        mainCamper(user)
             case 0:
                 print("¡Hasta luego! 👋")
                 break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                
 
-def menuCoordinador():
+
+# MENÚ COORDINADOR
+def mainCoordinador():
     while True:
-        opcion = mgs.menuCoordinador()
+        opcion = m.menuCoordinador()
         match opcion:
             case 1:
-                # Registrar Camper
                 c.registrarCamper()
             case 2:
-                # Registrar Trainer
                 c.registrarTrainer()
             case 3:
-                # Crear Ruta de entrenamiento
                 c.crearRuta()
             case 4:
-                # Cambiar estados
                 c.cambiarEstado()
             case 5:
                 c.registrarNotas()
@@ -51,18 +50,19 @@ def menuCoordinador():
             case 8:
                 c.consultarCamperEnRiesgo()
             case 9:
-                mgs.menuReportes()
+                mainReportesMain()  # llama al menú de reportes
             case 0:
                 print("Sesión cerrada.")
-                mgs.menuLog()
+                break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                
 
-def menuReportes():
+
+# MENÚ REPORTES
+def mainReportesMain():
     while True:
-        opcion = mgs.menuReportes()
+        opcion = m.menuReportes()
         match opcion:
             case 1:
                 c.listarCampersInscritos()
@@ -81,43 +81,43 @@ def menuReportes():
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                
 
-def menuTrainer():
+
+# MENÚ TRAINER
+def mainTrainer(user):
     while True:
-        opcion = mgs.menuTrainer()
+        opcion = m.menuTrainer(user)
         match opcion:
             case 1:
-                train.listarCampersAsignados()
+                train.listarCampersAsignados(user)
             case 2:
-                train.registrarNotasTrainer()
+                train.registrarNotasTrainer(user)
             case 3:
-                train.consultarNotasCampers()
+                train.consultarNotasCampers(user)
             case 4:
-                train.generarReporteCampers()
+                train.generarReporteCampers(user)
             case 0:
                 print("Sesión cerrada.")
                 break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                
 
-def menuCamper():
+
+# MENÚ CAMPER
+def mainCamper(user):
     while True:
-        opcion = mgs.menuCamper()
+        opcion = m.menuCamper(user)
         match opcion:
             case 1:
-                cam.consultarInfoCamper()
+                cam.consultarInfoCamper(user)
             case 2:
-                cam.consultarNotasCamper()
+                cam.consultarNotasCamper(user)
             case 3:
-                cam.consultarRutaCamper()
+                cam.consultarRutaCamper(user)
             case 0:
                 print("Sesión cerrada.")
                 break
             case _:
                 u.validacionOpcion()
                 u.pausar()
-                
-

@@ -12,7 +12,7 @@ def listarCampersAsignados(IDtrainer):
     for nombreRuta, infoRuta in rutaRutas.items():
         if infoRuta.get("trainerEncargado") == IDtrainer:
             encontrado = True
-            print(f"\n Ruta: {nombreRuta}")
+            print(f"\n 📖 Ruta: {nombreRuta}")
             campersAsignados = infoRuta.get("campersAsignados", [])
             
             if not campersAsignados:
@@ -21,9 +21,9 @@ def listarCampersAsignados(IDtrainer):
             else:
                 for IDcamper in campersAsignados:
                     info = campers.get(IDcamper, {})
-                    print(f" ID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} ")
+                    print(f"\nID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} ")
     if not encontrado:
-        print("No tienes rutas asignadas Actualmente")
+        print("\nNo tienes rutas asignadas Actualmente")
         pausar()
     
     pausar()
@@ -203,7 +203,7 @@ def generarReporteCampers(IDtrainer):
                     else:
                         print("   📘 Notas: Sin registrar")
             print("="*50)
-    
+    pausar()
     if not encontrado:
         print("❌ No tienes rutas asignadas actualmente.")
         pausar()

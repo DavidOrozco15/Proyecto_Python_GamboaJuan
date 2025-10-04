@@ -268,22 +268,22 @@ def asignarTrainerRuta():
     trainers = cargar(rutaTrainers)
     rutas = cargar(rutaRutas)
 
-    print("\n----RUTAS DISPONIBLES----")
-    for i, (nombreRuta, info) in enumerate(rutaRutas.items(), start=1):
-        print(f"{i}. {nombreRuta} | Capacidad: {info['capacidadMax']} | Salón: {info['salon']} | Trainer: {info.get('trainer_encargado', 'No asignado')}")
+    print("----RUTAS DISPONIBLES----")
+    for i, (nombreRuta, info) in enumerate(rutas.items(), start=1):
+        print(f"\n{i}. {nombreRuta} | Capacidad: {info['capacidadMax']} | Salón: {info['salon']} | Trainer: {info.get('trainer_encargado', 'No asignado')}")
     
     while True:
-        opcion = pedirEntero("Seleccione una ruta: ")
+        opcion = pedirEntero("\nSeleccione una ruta: ")
         if 1 <= opcion <= len(rutas):
             rutaSeleccionada = list(rutas.keys())[opcion - 1]
             break
         
     print("\n----TRAINERS DISPONIBLES----")
     for i, (IDtrainer, info) in enumerate(trainers.items(), start=1):
-        print(f"{i}. {info['nombre']} {info['apellido']} | ID: {IDtrainer}")
+        print(f"\n{i}. {info['nombres']} {info['apellidos']} | ID: {IDtrainer}")
 
     while True:
-        opcion = pedirEntero("Seleccione un trainer: ")
+        opcion = pedirEntero("\nSeleccione un trainer: ")
         if 1 <= opcion <= len(trainers):
             trainerSeleccionado = list(trainers.keys())[opcion - 1]
             break
@@ -303,12 +303,12 @@ def matricularCamper():
 
     campersAprobados = {IDcamper : info for IDcamper, info in campers.items() if info["estado"] == "aprobado"}
 
-    print("\n----CAMPERS APROBADOS----")
+    print("----CAMPERS APROBADOS----")
     for IDcamper, info in campersAprobados.items():
-        print(f"{IDcamper}: {info['nombres']} {info['apellidos']}")
+        print(f"[ID: {IDcamper}]: 👤 {info['nombres']} {info['apellidos']}")
 
     while True:
-        opcion = pedirEntero("Seleccione un camper: ")
+        opcion = pedirEntero("\nSeleccione un camper: ")
         if 1 <= opcion <= len(campersAprobados):
             camperSeleccionado = list(campersAprobados.keys())[opcion - 1]
             break
@@ -323,7 +323,7 @@ def matricularCamper():
         disponible = ocupados < info["capacidadMax"] # mirar si aun hay espacio
         trainer = info.get("trainerEncargado", "no asignado") #trainer asignado o no
         estado = "disponible" if disponible else "lleno"
-        print(f"{contador}. {nombreRuta} | Capacidad: {ocupados}/{info['capacidadMax']} | Trainer: {trainer} | Estado: {estado}")
+        print(f"\n{contador}. {nombreRuta} | Capacidad: {ocupados}/{info['capacidadMax']} | Trainer: {trainer} | Estado: {estado}")
     
         if disponible:
             rutasDisponibles[contador] = nombreRuta
@@ -331,7 +331,7 @@ def matricularCamper():
         contador += 1
 
     while True:
-        opcion = pedirEntero("Seleccione una ruta disponible: ")
+        opcion = pedirEntero("\nSeleccione una ruta disponible: ")
         if opcion in rutasDisponibles:
             rutaSeleccionada = rutasDisponibles[opcion]
             break

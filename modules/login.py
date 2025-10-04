@@ -17,14 +17,14 @@ def login():
     elif user in trainers:
         limpiar()
         print("\nACCESO CONCEDIDO")
-        print(f"Bienvenido Trainer {trainers[user]['nombre']}")
+        print(f"Bienvenido Trainer 🧍 {trainers[user]['nombres']}")
         pausar()
         return "trainer", user
     
     elif user in campers:
         limpiar()
         print("\nACCESO CONCEDIDO")
-        print(f"Bienvenido Camper {campers[user]['nombres']}")
+        print(f"\nBienvenido Camper 👤 {campers[user]['nombres']}")
         pausar()
         return "camper", user
     
