@@ -22,23 +22,14 @@
                 "NodeJS"
             ]
         },
-        "capacidadMax": 23,
-        "campersAsignados": [
-            "12345",
-            "12345"
-        ],
+        "capacidadMax": 33,
+        "campersAsignados": [],
         "salon": "salon 1",
         "horarios": [
-            "08:00-12:00"
+            "12:00-16:00"
         ],
-        "trainerEncargado": "andres",
-        "matriculas": {
-            "12345": {
-                "fechaInicio": "123412",
-                "fechaFin": "123211",
-                "trainer": "andres"
-            }
-        }
+        "trainerEncargado": "No asignado",
+        "matriculas": {}
     },
     "Java": {
         "modulos": {
@@ -53,7 +44,7 @@
                 "Bootstrap"
             ],
             "Bases de datos": [
-                "MySQL"
+                "PostgreSQL"
             ],
             "Programación formal": [
                 "Java"
@@ -63,40 +54,15 @@
             ]
         },
         "capacidadMax": 33,
-        "campersAsignados": [
-            "1"
-        ],
-        "salon": "salon 1",
+        "campersAsignados": [],
+        "salon": "salon 2",
         "horarios": [
-            "12:00-16:00"
+            "08:00-12:00"
         ],
-        "trainerEncargado": "2",
-        "matriculas": {
-            "1": {
-                "fechaInicio": "2025-10-15",
-                "fechaFin": "2026-11-15",
-                "trainer": "No asignado",
-                "modulos": {
-                    "Nota Inicial": {
-                        "teorica": 100.0,
-                        "practica": 100.0,
-                        "promedio": 100.0
-                    },
-                    "Fundamentos de programación": {
-                        "teorica": 20.0,
-                        "practica": 10.0,
-                        "quiz": 30.0,
-                        "promedio": 15.0
-                    },
-                    "Programación Web": {},
-                    "Bases de datos": {},
-                    "Programación formal": {},
-                    "Backend": {}
-                }
-            }
-        }
+        "trainerEncargado": "No asignado",
+        "matriculas": {}
     },
-    "NetCore": {
+    "Netcore": {
         "modulos": {
             "Fundamentos de programación": [
                 "Introducción a la algoritmia",
@@ -119,136 +85,10 @@
             ]
         },
         "capacidadMax": 25,
-        "campersAsignados": [
-            "5555"
-        ],
-        "salon": "salon 1",
-        "horarios": [
-            "16:00-20:00"
-        ],
-        "trainerEncargado": "6666",
-        "matriculas": {
-            "5555": {
-                "fechaInicio": "2025-05-12",
-                "fechaFin": "2025-06-09",
-                "trainer": "No asignado",
-                "modulos": {
-                    "Nota Inicial": {
-                        "teorica": 34.0,
-                        "practica": 90.0,
-                        "promedio": 62.0
-                    },
-                    "Fundamentos de programación": {
-                        "teorica": 43.0,
-                        "practica": 89.0,
-                        "quiz": 90.0,
-                        "promedio": 75.3
-                    },
-                    "Programación Web": {},
-                    "Bases de datos": {},
-                    "Programación formal": {},
-                    "Backend": {}
-                }
-            }
-        }
-    },
-    "nuevaRuta": {
-        "modulos": {
-            "Fundamentos de programación": [
-                "Introducción a la algoritmia",
-                "PSeInt",
-                "Python"
-            ],
-            "Programación Web": [
-                "HTML",
-                "CSS",
-                "Bootstrap"
-            ],
-            "Bases de datos": [
-                "MySQL",
-                "MongoDB"
-            ],
-            "Programación formal": [
-                "JavaScript"
-            ],
-            "Backend": [
-                "Netcore"
-            ]
-        },
-        "capacidadMax": 10,
-        "campersAsignados": [
-            "54321",
-            "99999"
-        ],
-        "salon": "salon 2",
-        "horarios": [
-            "08:00-12:00"
-        ],
-        "trainerEncargado": "67890",
-        "matriculas": {
-            "54321": {
-                "fechaInicio": "2025-09-21",
-                "fechaFin": "2026-08-12",
-                "trainer": "67890",
-                "modulos": {
-                    "Nota Inicial": {
-                        "teorica": 78.0,
-                        "practica": 60.0,
-                        "promedio": 69.0
-                    }
-                }
-            },
-            "99999": {
-                "fechaInicio": "2024-01-01",
-                "fechaFin": "2024-12-31",
-                "trainer": "67890",
-                "modulos": {
-                    "Nota Inicial": {
-                        "teorica": 80,
-                        "practica": 90,
-                        "promedio": 85
-                    },
-                    "Fundamentos de programación": {
-                        "teorica": 23.0,
-                        "practica": 45.0,
-                        "quiz": 56.0,
-                        "promedio": 39.5
-                    },
-                    "Programación Web": {},
-                    "Bases de datos": {},
-                    "Programación formal": {},
-                    "Backend": {}
-                }
-            }
-        }
-    },
-    "java": {
-        "modulos": {
-            "Fundamentos de programación": [
-                "Introducción a la algoritmia",
-                "PSeInt",
-                "Python"
-            ],
-            "Programación Web": [
-                "HTML",
-                "CSS",
-                "Bootstrap"
-            ],
-            "Bases de datos": [
-                "MySQL"
-            ],
-            "Programación formal": [
-                "Java"
-            ],
-            "Backend": [
-                "SpringBoot"
-            ]
-        },
-        "capacidadMax": 33,
         "campersAsignados": [],
         "salon": "salon 3",
         "horarios": [
-            "12:00-16:00"
+            "16:00-20:00"
         ],
         "trainerEncargado": "No asignado",
         "matriculas": {}

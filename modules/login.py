@@ -29,7 +29,7 @@ def login():
             return "camper", user
 
         else:
-            print("Usuario No Encontrado")
+            print("⚠️ Usuario No Encontrado")
             pausar()
             limpiar()
         

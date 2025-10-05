@@ -24,6 +24,7 @@ def consultarNotasCamper(IDcamper):
     rutaRutas = "data/rutas.json"
     rutas = cargar(rutaRutas)
 
+    print("----CONSULTAR NOTAS----")
     camperInfo = campers.get(IDcamper, {})
     if not camperInfo:
         print("❌ Camper no encontrado.")
@@ -65,6 +66,7 @@ def consultarRutaCamper(IDcamper):
     rutaTrainers = "data/trainers.json"
     trainers = cargar(rutaTrainers)
 
+    print("----CONSULTAR RUTA----")
     encontrado = False
 
     for nombreRuta, infoRuta in rutas.items():

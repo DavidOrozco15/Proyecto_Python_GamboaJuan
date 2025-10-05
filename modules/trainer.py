@@ -8,7 +8,7 @@ def listarCampersAsignados(IDtrainer):
     campers = cargar(ruta)
     
     encontrado = False
-    
+    print("----LISTAR CAMPERS ASIGNADOS A MI----")
     for nombreRuta, infoRuta in rutaRutas.items():
         if infoRuta.get("trainerEncargado") == IDtrainer:
             encontrado = True

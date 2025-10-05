@@ -52,13 +52,13 @@ def menuReportes():
     while True:
         limpiar()
         print("\n----MENÚ DE REPORTES 📊----")
-        print("1. Listar campers en estado 'Inscrito'")
-        print("2. Listar campers que aprobaron examen inicial")
-        print("3. Listar entrenadores activos")
-        print("4. Listar campers con bajo rendimiento")
-        print("5. Listar campers y trainers asociados a rutas")
-        print("6. Mostrar aprobados y perdidos por módulo, ruta y trainer")
-        print("0. Volver al menú anterior")
+        print("1. Listar campers en estado 'Inscrito' 🔖")
+        print("2. Listar campers que aprobaron examen inicial 🔖")
+        print("3. Listar entrenadores activos 🔖")
+        print("4. Listar campers con bajo rendimiento 🔖")
+        print("5. Listar campers y trainers asociados a rutas 🔖")
+        print("6. Mostrar aprobados y perdidos por módulo, ruta y trainer 🔖")
+        print("0. Volver al menú anterior 🔙")
         try:
             opcion = int(input("Seleccione una opcion: "))
             if opcion in {0,1,2,3,4,5,6}:
@@ -114,7 +114,7 @@ def menuCamper(user):
             pausar()
 
 
-# MENÚ MÓDULOS FIJOS (opcional)
+# MENÚ MÓDULOS FIJOS 
 def rutasFijas():
     limpiar()
     print("\n---MODULOS FIJOS---")

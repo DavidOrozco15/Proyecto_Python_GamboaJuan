@@ -15,7 +15,7 @@ def main():
                 rol, user = l.login()
                 match rol:
                     case "coordinador":
-                        mainCoordinador()  # llama al main del coordinador
+                        mainCoordinador()  #llama al main del coordinador
                     case "trainer":
                         mainTrainer(user)
                     case "camper":

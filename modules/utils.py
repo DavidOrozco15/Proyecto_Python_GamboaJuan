@@ -39,17 +39,6 @@ def validadorCamperNoExiste(IDcamper, campers):
         return False
     return True
 
-def validadorTrainerNoExiste(IDtrainer, trainers):
-    if IDtrainer not in trainers:
-        print("❌ No existe un Trainer con ese ID.")
-        return False
-    return True
-
-def ValidadorRutaNoExiste(nombreRuta, rutaRutas):
-    if nombreRuta not in rutaRutas:
-        print("❌ No existe la ruta.")
-        return False
-    return True
 
 #Validacion de tipos de datos
 

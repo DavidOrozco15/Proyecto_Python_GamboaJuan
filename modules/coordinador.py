@@ -110,7 +110,7 @@ def registrarNotas():
         print("El Camper aprobo exitosamente.")
     elif promedio < 60:
         print("El Camper debe volver a intentarlo.")
-        campers[IDcamper]["estado"] = "en proceso de ingreso"
+        campers[IDcamper]["estado"] = "inscrito"
     
 
     campers[IDcamper]["notaInicial"] = {
@@ -196,7 +196,6 @@ def crearRuta():
                 basesSeleccionadas = [modulosRuta["Bases de datos"][i-1] for i in indices]
                 break
 
-    # Capacidad
     # Capacidad
     while True:
         capacidadInput = input("Ingrese la capacidad máxima de la ruta (Enter para 33): ").strip()
@@ -472,8 +471,8 @@ def listarCampersInscritos():
 
     print("\n----CAMPERS INSCRITOS----")
     for IDcamper, info in campersInscritos.items():
-        print(f"ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}")
-        print("-"*20)
+        print(f"👤 ID: {IDcamper}: | Nombre :{info['nombres']} | Apellido :  {info['apellidos']} | Estado : {info['estado']}")
+        print("-"*80)
     pausar()
 
 def listarCampersAprobados():
@@ -599,7 +598,7 @@ def mostrarResultadosModulos():
             reprobados = datos['reprobados']
 
             print(f"\nMódulo: {nombreModulo}")
-            print(f"Aprobados ({len(aprobados)}): {', '.join(aprobados) if aprobados else 'Ninguno'}")
-            print(f"Reprobados ({len(reprobados)}): {', '.join(reprobados) if reprobados else 'Ninguno'}")
+            print(f"✔️ Aprobados ({len(aprobados)}): {', '.join(aprobados) if aprobados else 'Ninguno'}")
+            print(f"❌ Reprobados ({len(reprobados)}): {', '.join(reprobados) if reprobados else 'Ninguno'}")
             print("-"*80)
     pausar()
