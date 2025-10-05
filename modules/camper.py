@@ -8,8 +8,8 @@ def consultarInfoCamper(IDcamper):
     validadorCamperNoExiste(IDcamper, campers)
 
     info = campers[IDcamper]
-    print("Información Personal del Camper:")
-    print(f"\nID: {IDcamper}")
+    print("👤 Información Personal del Camper:")
+    print(f"\n 💹 ID: {IDcamper}")
     print(f"Nombres: {info.get('nombres', '')}")
     print(f"Apellidos: {info.get('apellidos', '')}")
     print(f"Estado: {info.get('estado', '')}")
@@ -30,13 +30,13 @@ def consultarNotasCamper(IDcamper):
         pausar()
         return
 
-    ruta_asignada = camperInfo.get("ruta")
-    if not ruta_asignada or ruta_asignada not in rutas:
+    rutaAsignada = camperInfo.get("ruta")
+    if not rutaAsignada or rutaAsignada not in rutas:
         print("❌ No tienes ruta asignada o notas registradas.")
         pausar()
         return
 
-    matricula = rutas[ruta_asignada].get("matriculas", {}).get(IDcamper, {})
+    matricula = rutas[rutaAsignada].get("matriculas", {}).get(IDcamper, {})
     modulos = matricula.get("modulos", {})
 
     if not modulos:
@@ -50,11 +50,11 @@ def consultarNotasCamper(IDcamper):
         practica = notas.get("practica", "No registrada")
         quiz = notas.get("quiz", "No registrada")
         promedio = notas.get("promedio", "No calculado")
-        print(f"\nMódulo: {mod_name}")
-        print(f"   - Teórica: {teorica}")
-        print(f"   - Práctica: {practica}")
-        print(f"   - Quiz: {quiz}")
-        print(f"   - Promedio: {promedio}")
+        print(f"\n📚 Módulo: {mod_name}")
+        print(f"  📑 - Teórica: {teorica}")
+        print(f"  📑 - Práctica: {practica}")
+        print(f"  📑 - Quiz: {quiz}")
+        print(f"  📑 - Promedio: {promedio}")
     pausar()
     
 def consultarRutaCamper(IDcamper):

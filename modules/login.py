@@ -10,7 +10,7 @@ def login():
         user = val("\nIngrese su usuario: ").lower()
         if user == "admin":
             limpiar()
-            print("\nINICIASTE SESION COMO COORDINADOR")
+            print("\nINICIASTE SESION COMO COORDINADOR ✍️")
             pausar()
             return "coordinador", user
 

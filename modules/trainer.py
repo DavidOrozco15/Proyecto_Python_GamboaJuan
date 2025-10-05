@@ -12,7 +12,7 @@ def listarCampersAsignados(IDtrainer):
     for nombreRuta, infoRuta in rutaRutas.items():
         if infoRuta.get("trainerEncargado") == IDtrainer:
             encontrado = True
-            print(f"\n 📖 Ruta: {nombreRuta}")
+            print(f"\n📖 Ruta: {nombreRuta}")
             campersAsignados = infoRuta.get("campersAsignados", [])
             
             if not campersAsignados:
@@ -21,7 +21,7 @@ def listarCampersAsignados(IDtrainer):
             else:
                 for IDcamper in campersAsignados:
                     info = campers.get(IDcamper, {})
-                    print(f"\nID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} ")
+                    print(f"\n👤 ID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} ")
     if not encontrado:
         print("\nNo tienes rutas asignadas Actualmente")
         pausar()
@@ -36,6 +36,7 @@ def registrarNotasTrainer(IDtrainer):
     rutas = cargar(rutaRutas)
     campers = cargar(rutaCampers)
 
+    print("----REGISTRAR NOTAS DE LOS MODULOS----")
     # Buscar la ruta asignada al trainer
     rutaAsignada = None
     for nombreRuta, infoRuta in rutas.items():
@@ -60,7 +61,7 @@ def registrarNotasTrainer(IDtrainer):
     print("\n---- CAMPERS DISPONIBLES ----")
     for i, (IDcamper, infoMatricula) in enumerate(matriculas.items(), start=1):
         camperInfo = campers.get(IDcamper, {})
-        print(f"{i}. {IDcamper} | {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}")
+        print(f"{i}. 👤 {IDcamper} | {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}")
 
     # Seleccionar camper
     opcion = pedirEntero("Seleccione un camper: ")
@@ -68,18 +69,18 @@ def registrarNotasTrainer(IDtrainer):
 
     # Seleccionar módulo
     modulos = matriculas[IDcamperSeleccionado].get("modulos", {})
-    modulos_disponibles = {k: v for k, v in modulos.items() if k != "Nota Inicial"}
-    if not modulos_disponibles:
+    modulosDisponibles = {k: v for k, v in modulos.items() if k != "Nota Inicial"}
+    if not modulosDisponibles:
         print("⚠️ Este camper no tiene módulos disponibles para calificar.")
         pausar()
         return
 
     print("\n---- MÓDULOS DISPONIBLES ----")
-    for i, modulo in enumerate(modulos_disponibles.keys(), start=1):
+    for i, modulo in enumerate(modulosDisponibles.keys(), start=1):
         print(f"{i}. {modulo}")
 
     opcionModulo = pedirEntero("Seleccione un módulo: ")
-    nombreModulo = list(modulos_disponibles.keys())[opcionModulo - 1]
+    nombreModulo = list(modulosDisponibles.keys())[opcionModulo - 1]
 
     # Ingresar notas
     notaT = pedirFloat("Ingrese nota teórica (0-100): ")
@@ -116,7 +117,7 @@ def consultarNotasCampers(IDtrainer):
 
     rutas = cargar(rutaRutas)
     campers = cargar(rutaCampers)
-
+    print("----CONSULTAR NOTAS----")
     # Buscar la ruta asignada al trainer
     rutaAsignada = None
     for nombreRuta, infoRuta in rutas.items():
@@ -177,7 +178,7 @@ def generarReporteCampers(IDtrainer):
         if infoRuta.get("trainerEncargado") == IDtrainer:
             encontrado = True
             print(f"\n📊 Reporte de la Ruta: {nombreRuta}")
-            print("="*50)
+            print("-"*50)
             
             campersAsignados = infoRuta.get("campersAsignados", [])
             
@@ -195,19 +196,20 @@ def generarReporteCampers(IDtrainer):
                     print(f"   Apellidos : {info.get('apellidos','')}")
                     print(f"   Estado : {info.get('estado','')}")
                     print(f"   Riesgo : {info.get('riesgo','')}")
-
+            
                     if modulos:
-                        print("   📘 Notas:")
+                        print("   📑 Notas:")
                         for modulo, notas in modulos.items():
-                            print(f"      {modulo}:")
+                            print(f"\n    📚  {modulo}:")
                             print(f"         Teórica: {notas.get('teorica', 'No registrada')}")
                             print(f"         Práctica: {notas.get('practica', 'No registrada')}")
                             print(f"         Quiz: {notas.get('quiz', 'No registrada')}")
                             print(f"         Promedio: {notas.get('promedio', 'No calculado')}")
+                        
                     else:
                         print("   📘 Notas: Sin registrar")
                     
-                    print("="*50)
+                    print("-"*50)
             pausar()
     if not encontrado:
         print("❌ No tienes rutas asignadas actualmente.")
