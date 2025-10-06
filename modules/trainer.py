@@ -7,11 +7,11 @@ def listarCampersAsignados(IDtrainer):
     ruta = "data/campers.json"
     campers = cargar(ruta)
     
-    encontrado = False
+    encontrado = False # Si al final del recorrido sigue siendo False, significa que el trainer no tiene rutas asignadas.
     print("----LISTAR CAMPERS ASIGNADOS A MI----")
     for nombreRuta, infoRuta in rutaRutas.items():
-        if infoRuta.get("trainerEncargado") == IDtrainer:
-            encontrado = True
+        if infoRuta.get("trainerEncargado") == IDtrainer: # Comprueba si el entrenador encargado de esta ruta es el mismo que el IDtrainer actual.
+            encontrado = True # Actualiza la bandera a True, indicando que sí tiene rutas asignadas.
             print(f"\n📖 Ruta: {nombreRuta}")
             campersAsignados = infoRuta.get("campersAsignados", [])
             

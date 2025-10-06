@@ -74,7 +74,7 @@ def consultarRutaCamper(IDcamper):
             encontrado = True
             trainerID = infoRuta.get("trainerEncargado", None)
             trainerNombre = (
-                f"{trainers[trainerID]['nombres']} {trainers[trainerID]['apellidos']}"
+                f"{trainers[trainerID]['nombres']} {trainers[trainerID]['apellidos']}" # se hace de esta manera, es un if ternario, se hace asi para no tener errores de sintaxis
                 if trainerID and trainerID in trainers else "No asignado"
             )
 
