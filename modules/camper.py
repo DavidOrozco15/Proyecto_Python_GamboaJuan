@@ -7,7 +7,7 @@ def consultarInfoCamper(IDcamper):
 
     validadorCamperNoExiste(IDcamper, campers)
 
-    info = campers[IDcamper]
+    info = campers[IDcamper] 
     print("👤 Información Personal del Camper:")
     print(f"\n 💹 ID: {IDcamper}")
     print(f"Nombres: {info.get('nombres', '')}")
