@@ -1,96 +1,140 @@
 {
-    "NodeJS": {
-        "modulos": {
-            "Fundamentos de programación": [
-                "Introducción a la algoritmia",
-                "PSeInt",
-                "Python"
-            ],
-            "Programación Web": [
-                "HTML",
-                "CSS",
-                "Bootstrap"
-            ],
-            "Bases de datos": [
-                "MySQL",
-                "PostgreSQL"
-            ],
-            "Programación formal": [
-                "JavaScript"
-            ],
-            "Backend": [
-                "NodeJS"
-            ]
+    "rutas": {
+        "NodeJS": {
+            "modulos": {
+                "Fundamentos de programación": [
+                    "Introducción a la algoritmia",
+                    "PSeInt",
+                    "Python"
+                ],
+                "Programación Web": [
+                    "HTML",
+                    "CSS",
+                    "Bootstrap"
+                ],
+                "Bases de datos": [
+                    "MySQL",
+                    "PostgreSQL"
+                ],
+                "Programación formal": [
+                    "JavaScript"
+                ],
+                "Backend": [
+                    "NodeJS"
+                ]
+            }
         },
-        "capacidadMax": 33,
-        "campersAsignados": [],
-        "salon": "salon 1",
-        "horarios": [
-            "12:00-16:00"
-        ],
-        "trainerEncargado": "No asignado",
-        "matriculas": {}
+        "Java": {
+            "modulos": {
+                "Fundamentos de programación": [
+                    "Introducción a la algoritmia",
+                    "PSeInt",
+                    "Python"
+                ],
+                "Programación Web": [
+                    "HTML",
+                    "CSS",
+                    "Bootstrap"
+                ],
+                "Bases de datos": [
+                    "PostgreSQL"
+                ],
+                "Programación formal": [
+                    "Java"
+                ],
+                "Backend": [
+                    "SpringBoot"
+                ]
+            }
+        },
+        "Netcore": {
+            "modulos": {
+                "Fundamentos de programación": [
+                    "Introducción a la algoritmia",
+                    "PSeInt",
+                    "Python"
+                ],
+                "Programación Web": [
+                    "HTML",
+                    "CSS",
+                    "Bootstrap"
+                ],
+                "Bases de datos": [
+                    "MongoDB"
+                ],
+                "Programación formal": [
+                    "C#"
+                ],
+                "Backend": [
+                    "Netcore"
+                ]
+            }
+        },
+        "Nose": {
+            "modulos": {
+                "Fundamentos de programación": [
+                    "Introducción a la algoritmia",
+                    "PSeInt",
+                    "Python"
+                ],
+                "Programación Web": [
+                    "HTML",
+                    "CSS",
+                    "Bootstrap"
+                ],
+                "Bases de datos": [
+                    "MongoDB"
+                ],
+                "Programación formal": [
+                    "Java"
+                ],
+                "Backend": [
+                    "SpringBoot"
+                ]
+            }
+        }
     },
-    "Java": {
-        "modulos": {
-            "Fundamentos de programación": [
-                "Introducción a la algoritmia",
-                "PSeInt",
-                "Python"
+    "grupos": {
+        "C4": {
+            "ruta": "Nose",
+            "capacidadMax": 33,
+            "campersAsignados": [
+                "123"
             ],
-            "Programación Web": [
-                "HTML",
-                "CSS",
-                "Bootstrap"
+            "salon": "salon 1",
+            "horarios": [
+                "08:00-12:00"
             ],
-            "Bases de datos": [
-                "PostgreSQL"
-            ],
-            "Programación formal": [
-                "Java"
-            ],
-            "Backend": [
-                "SpringBoot"
-            ]
-        },
-        "capacidadMax": 33,
-        "campersAsignados": [],
-        "salon": "salon 2",
-        "horarios": [
-            "08:00-12:00"
-        ],
-        "trainerEncargado": "No asignado",
-        "matriculas": {}
-    },
-    "Netcore": {
-        "modulos": {
-            "Fundamentos de programación": [
-                "Introducción a la algoritmia",
-                "PSeInt",
-                "Python"
-            ],
-            "Programación Web": [
-                "HTML",
-                "CSS",
-                "Bootstrap"
-            ],
-            "Bases de datos": [
-                "MongoDB"
-            ],
-            "Programación formal": [
-                "C#"
-            ],
-            "Backend": [
-                "Netcore"
-            ]
-        },
-        "capacidadMax": 25,
-        "campersAsignados": [],
-        "salon": "salon 3",
-        "horarios": [
-            "16:00-20:00"
-        ],
-        "trainerEncargado": "No asignado",
-        "matriculas": {}
+            "trainerEncargado": "111",
+            "matriculas": {
+                "123": {
+                    "fechaInicio": "2025-03-14",
+                    "fechaFin": "2026-06-18",
+                    "trainer": "111",
+                    "modulos": {
+                        "Nota Inicial": {
+                            "teorica": 90.0,
+                            "practica": 90.0,
+                            "promedio": 90.0
+                        },
+                        "Fundamentos de programación": {
+                            "teorica": 100.0,
+                            "practica": 50.0,
+                            "quiz": 100.0,
+                            "promedio": 70.0
+                        },
+                        "Programación Web": {},
+                        "Bases de datos": {},
+                        "Programación formal": {
+                            "teorica": 100.0,
+                            "practica": 80.0,
+                            "quiz": 56.0,
+                            "promedio": 83.6
+                        },
+                        "Backend": {}
+                    }
+                }
+            }
+        }
     }
 }

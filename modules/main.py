@@ -40,16 +40,20 @@ def mainCoordinador():
             case 3:
                 c.crearRuta()
             case 4:
-                c.cambiarEstado()
+                c.crearGrupo()
             case 5:
-                c.registrarNotas()
+                c.cambiarEstado()
             case 6:
-                c.asignarTrainerRuta()
+                c.registrarNotas()
             case 7:
-                c.matricularCamper()
+                c.registrarNotasCoordinador()
             case 8:
-                c.consultarCamperEnRiesgo()
+                c.asignarTrainerGrupo()
             case 9:
+                c.matricularCamper()
+            case 10:
+                c.consultarCamperEnRiesgo()
+            case 11:
                 mainReportesMain()  # llama al menú de reportes
             case 0:
                 print("Sesión cerrada.")

@@ -6,15 +6,15 @@ def listarCampersAsignados(IDtrainer):
     rutaRutas = cargar(ruta)
     ruta = "data/campers.json"
     campers = cargar(ruta)
-    
-    encontrado = False # Si al final del recorrido sigue siendo False, significa que el trainer no tiene rutas asignadas.
+
+    encontrado = False # Si al final del recorrido sigue siendo False, significa que el trainer no tiene grupos asignadas.
     print("----LISTAR CAMPERS ASIGNADOS A MI----")
-    for nombreRuta, infoRuta in rutaRutas.items():
-        if infoRuta.get("trainerEncargado") == IDtrainer: # Comprueba si el entrenador encargado de esta ruta es el mismo que el IDtrainer actual.
-            encontrado = True # Actualiza la bandera a True, indicando que sí tiene rutas asignadas.
-            print(f"\n📖 Ruta: {nombreRuta}")
-            campersAsignados = infoRuta.get("campersAsignados", [])
-            
+    for nombreGrupo, infoGrupo in rutaRutas.get("grupos", {}).items():
+        if infoGrupo.get("trainerEncargado") == IDtrainer: # Comprueba si el entrenador encargado de este grupo es el mismo que el IDtrainer actual.
+            encontrado = True # Actualiza la bandera a True, indicando que sí tiene grupos asignadas.
+            print(f"\n📖 Grupo: {nombreGrupo}")
+            campersAsignados = infoGrupo.get("campersAsignados", [])
+
             if not campersAsignados:
                 print("No hay campers Asignados aun")
                 pausar()
@@ -23,9 +23,9 @@ def listarCampersAsignados(IDtrainer):
                     info = campers.get(IDcamper, {})
                     print(f"\n👤 ID: {IDcamper} | Nombres: {info.get('nombres','')} | Apellidos: {info.get('apellidos','')} | Estado: {info.get('estado','')} ")
     if not encontrado:
-        print("\nNo tienes rutas asignadas Actualmente")
+        print("\nNo tienes grupos asignadas Actualmente")
         pausar()
-    
+
     pausar()
         
 def registrarNotasTrainer(IDtrainer):
@@ -37,20 +37,20 @@ def registrarNotasTrainer(IDtrainer):
     campers = cargar(rutaCampers)
 
     print("----REGISTRAR NOTAS DE LOS MODULOS----")
-    # Buscar la ruta asignada al trainer
-    rutaAsignada = None
-    for nombreRuta, infoRuta in rutas.items():
-        if infoRuta.get("trainerEncargado") == IDtrainer:
-            rutaAsignada = nombreRuta
+    # Buscar el grupo asignado al trainer
+    grupoAsignado = None
+    for nombreGrupo, infoGrupo in rutas.get("grupos", {}).items():
+        if infoGrupo.get("trainerEncargado") == IDtrainer:
+            grupoAsignado = nombreGrupo
             break
 
-    if not rutaAsignada:
-        print("❌ No tienes ninguna ruta asignada actualmente.")
+    if not grupoAsignado:
+        print("❌ No tienes ningún grupo asignado actualmente.")
         pausar()
         return
 
-    print(f"\n📚 Ruta asignada: {rutaAsignada}")
-    matriculas = rutas[rutaAsignada].get("matriculas", {})
+    print(f"\n📚 Grupo asignado: {grupoAsignado}")
+    matriculas = rutas["grupos"][grupoAsignado].get("matriculas", {})
 
     if not matriculas:
         print("⚠️ No hay campers matriculados en esta ruta todavía.")
@@ -90,7 +90,7 @@ def registrarNotasTrainer(IDtrainer):
     promedio = notaT * 0.3 + notaP * 0.6 + notaQ * 0.1
 
     # Guardar notas en rutas.json
-    rutas[rutaAsignada]["matriculas"][IDcamperSeleccionado]["modulos"][nombreModulo] = {
+    rutas["grupos"][grupoAsignado]["matriculas"][IDcamperSeleccionado]["modulos"][nombreModulo] = {
         "teorica": notaT,
         "practica": notaP,
         "quiz": notaQ,
@@ -118,20 +118,20 @@ def consultarNotasCampers(IDtrainer):
     rutas = cargar(rutaRutas)
     campers = cargar(rutaCampers)
     print("----CONSULTAR NOTAS----")
-    # Buscar la ruta asignada al trainer
-    rutaAsignada = None
-    for nombreRuta, infoRuta in rutas.items():
-        if infoRuta.get("trainerEncargado") == IDtrainer:
-            rutaAsignada = nombreRuta
+    # Buscar el grupo asignado al trainer
+    grupoAsignado = None
+    for nombreGrupo, infoGrupo in rutas.get("grupos", {}).items():
+        if infoGrupo.get("trainerEncargado") == IDtrainer:
+            grupoAsignado = nombreGrupo
             break
 
-    if not rutaAsignada:
-        print("❌ No tienes ninguna ruta asignada actualmente.")
+    if not grupoAsignado:
+        print("❌ No tienes ningún grupo asignado actualmente.")
         pausar()
         return
 
-    print(f"\n📚 Ruta asignada: {rutaAsignada}")
-    matriculas = rutas[rutaAsignada].get("matriculas", {})
+    print(f"\n📚 Grupo asignado: {grupoAsignado}")
+    matriculas = rutas["grupos"][grupoAsignado].get("matriculas", {})
 
     if not matriculas:
         print("⚠️ No hay campers matriculados en esta ruta todavía.")
@@ -173,22 +173,22 @@ def generarReporteCampers(IDtrainer):
     campers = cargar(rutaCampers)
     
     encontrado = False
-    
-    for nombreRuta, infoRuta in rutas.items():
-        if infoRuta.get("trainerEncargado") == IDtrainer:
+
+    for nombreGrupo, infoGrupo in rutas.get("grupos", {}).items():
+        if infoGrupo.get("trainerEncargado") == IDtrainer:
             encontrado = True
-            print(f"\n📊 Reporte de la Ruta: {nombreRuta}")
+            print(f"\n📊 Reporte del Grupo: {nombreGrupo}")
             print("-"*50)
-            
-            campersAsignados = infoRuta.get("campersAsignados", [])
-            
+
+            campersAsignados = infoGrupo.get("campersAsignados", [])
+
             if not campersAsignados:
                 print("⚠ No hay campers asignados todavía.")
                 pausar()
             else:
                 for IDcamper in campersAsignados:
                     info = campers.get(IDcamper, {})
-                    infoMatricula = infoRuta.get("matriculas", {}).get(IDcamper, {})
+                    infoMatricula = infoGrupo.get("matriculas", {}).get(IDcamper, {})
                     modulos = infoMatricula.get("modulos", {})
 
                     print(f"\n🧑 ID: {IDcamper}")
@@ -196,7 +196,7 @@ def generarReporteCampers(IDtrainer):
                     print(f"   Apellidos : {info.get('apellidos','')}")
                     print(f"   Estado : {info.get('estado','')}")
                     print(f"   Riesgo : {info.get('riesgo','')}")
-            
+
                     if modulos:
                         print("   📑 Notas:")
                         for modulo, notas in modulos.items():
@@ -205,13 +205,174 @@ def generarReporteCampers(IDtrainer):
                             print(f"         Práctica: {notas.get('practica', 'No registrada')}")
                             print(f"         Quiz: {notas.get('quiz', 'No registrada')}")
                             print(f"         Promedio: {notas.get('promedio', 'No calculado')}")
-                        
+
                     else:
                         print("   📘 Notas: Sin registrar")
-                    
+
                     print("-"*50)
             pausar()
     if not encontrado:
-        print("❌ No tienes rutas asignadas actualmente.")
+        print("❌ No tienes grupos asignados actualmente.")
         pausar()
+
+# def corregirNotasModulo(IDtrainer):
+#     limpiar()
+#     rutaRutas = "data/rutas.json"
+#     rutaCampers = "data/campers.json"
+
+#     rutas = cargar(rutaRutas)
+#     campers = cargar(rutaCampers)
+
+#     print("----CORREGIR NOTAS DE MÓDULO----")
+#     # Buscar el grupo asignado al trainer
+#     grupoAsignado = None
+#     for nombreGrupo, infoGrupo in rutas.get("grupos", {}).items():
+#         if infoGrupo.get("trainerEncargado") == IDtrainer:
+#             grupoAsignado = nombreGrupo
+#             break
+
+#     if not grupoAsignado:
+#         print("❌ No tienes ningún grupo asignado actualmente.")
+#         pausar()
+#         return
+
+#     print(f"\n📚 Grupo asignado: {grupoAsignado}")
+#     matriculas = rutas["grupos"][grupoAsignado].get("matriculas", {})
+
+#     if not matriculas:
+#         print("⚠️ No hay campers matriculados en esta ruta todavía.")
+#         pausar()
+#         return
+
+#     # Mostrar campers asignados
+#     print("\n---- CAMPERS DISPONIBLES ----")
+#     for i, (IDcamper, infoMatricula) in enumerate(matriculas.items(), start=1):
+#         camperInfo = campers.get(IDcamper, {})
+#         print(f"{i}. 👤 {IDcamper} | {camperInfo.get('nombres','')} {camperInfo.get('apellidos','')}")
+
+#     # Seleccionar camper
+#     opcion = pedirEntero("Seleccione un camper: ")
+#     IDcamperSeleccionado = list(matriculas.keys())[opcion - 1]
+
+#     # Seleccionar módulo
+#     modulos = matriculas[IDcamperSeleccionado].get("modulos", {})
+#     modulosDisponibles = {k: v for k, v in modulos.items() if k != "Nota Inicial" and v}
+#     if not modulosDisponibles:
+#         print("⚠️ Este camper no tiene módulos con notas para corregir.")
+#         pausar()
+#         return
+
+#     print("\n---- MÓDULOS CON NOTAS ----")
+#     for i, modulo in enumerate(modulosDisponibles.keys(), start=1):
+#         print(f"{i}. {modulo}")
+
+#     opcionModulo = pedirEntero("Seleccione un módulo para corregir: ")
+#     nombreModulo = list(modulosDisponibles.keys())[opcionModulo - 1]
+
+#     # Confirmar corrección
+#     confirm = input(f"¿Está seguro de corregir las notas de {nombreModulo} para {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}? (s/n): ").lower()
+#     if confirm != 's':
+#         print("Corrección cancelada.")
+#         pausar()
+#         return
+
+#     # Eliminar notas anteriores
+#     del rutas["grupos"][grupoAsignado]["matriculas"][IDcamperSeleccionado]["modulos"][nombreModulo]
+
+#     # Ingresar nuevas notas
+#     notaT = pedirFloat("Ingrese nueva nota teórica (0-100): ")
+#     notaP = pedirFloat("Ingrese nueva nota práctica (0-100): ")
+#     notaQ = pedirFloat("Ingrese nueva nota quiz (0-100): ")
+
+#     promedio = notaT * 0.3 + notaP * 0.6 + notaQ * 0.1
+
+#     # Guardar nuevas notas
+#     rutas["grupos"][grupoAsignado]["matriculas"][IDcamperSeleccionado]["modulos"][nombreModulo] = {
+#         "teorica": notaT,
+#         "practica": notaP,
+#         "quiz": notaQ,
+#         "promedio": promedio
+#     }
+
+#     # Actualizar riesgo
+#     if promedio < 60:
+#         campers[IDcamperSeleccionado]["riesgo"] = "alto"
+#     else:
+#         campers[IDcamperSeleccionado]["riesgo"] = "bajo"
+
+#     guardar(rutaRutas, rutas)
+#     guardar(rutaCampers, campers)
+
+#     print(f"✅ Notas corregidas para {campers[IDcamperSeleccionado]['nombres']} en {nombreModulo}.")
+#     print(f"📊 Nuevo promedio: {promedio:.2f} | Riesgo actualizado: {campers[IDcamperSeleccionado]['riesgo']}")
+#     pausar()
+
+# def consultarEstadisticasGrupo(IDtrainer):
+#     limpiar()
+#     rutaRutas = "data/rutas.json"
+#     rutaCampers = "data/campers.json"
+
+#     rutas = cargar(rutaRutas)
+#     campers = cargar(rutaCampers)
+
+#     print("----ESTADÍSTICAS DEL GRUPO----")
+#     # Buscar el grupo asignado al trainer
+#     grupoAsignado = None
+#     for nombreGrupo, infoGrupo in rutas.get("grupos", {}).items():
+#         if infoGrupo.get("trainerEncargado") == IDtrainer:
+#             grupoAsignado = nombreGrupo
+#             break
+
+#     if not grupoAsignado:
+#         print("❌ No tienes ningún grupo asignado actualmente.")
+#         pausar()
+#         return
+
+#     print(f"\n📚 Grupo asignado: {grupoAsignado}")
+#     matriculas = rutas["grupos"][grupoAsignado].get("matriculas", {})
+
+#     if not matriculas:
+#         print("⚠️ No hay campers matriculados en esta ruta todavía.")
+#         pausar()
+#         return
+
+#     totalCampers = len(matriculas)
+#     campersRiesgoAlto = 0
+#     campersRiesgoBajo = 0
+#     campersAprobados = 0
+#     campersReprobados = 0
+
+#     for IDcamper, infoMatricula in matriculas.items():
+#         camperInfo = campers.get(IDcamper, {})
+#         riesgo = camperInfo.get("riesgo", "bajo")
+#         if riesgo == "alto":
+#             campersRiesgoAlto += 1
+#         else:
+#             campersRiesgoBajo += 1
+
+#         modulos = infoMatricula.get("modulos", {})
+#         for nombreModulo, notas in modulos.items():
+#             if nombreModulo == "Nota Inicial":
+#                 continue
+#             promedio = notas.get("promedio", 0)
+#             if promedio >= 60:
+#                 campersAprobados += 1
+#             else:
+#                 campersReprobados += 1
+
+#     print(f"\n📊 Estadísticas del Grupo {grupoAsignado}:")
+#     print(f"   Total de Campers: {totalCampers}")
+#     print(f"   Campers en Riesgo Alto: {campersRiesgoAlto}")
+#     print(f"   Campers en Riesgo Bajo: {campersRiesgoBajo}")
+#     print(f"   Módulos Aprobados: {campersAprobados}")
+#     print(f"   Módulos Reprobados: {campersReprobados}")
+
+#     # Porcentaje de aprobación
+#     if campersAprobados + campersReprobados > 0:
+#         porcentajeAprobacion = (campersAprobados / (campersAprobados + campersReprobados)) * 100
+#         print(f"   Porcentaje de Aprobación: {porcentajeAprobacion:.2f}%")
+#     else:
+#         print("   Porcentaje de Aprobación: No hay módulos evaluados aún.")
+
+#     pausar()
         

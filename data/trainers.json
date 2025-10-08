@@ -1,2 +1,12 @@
 {
+    "111": {
+        "nombres": "david",
+        "apellidos": "orozco",
+        "telefono": "31212321",
+        "correo": "@gmail.",
+        "estado": "activo",
+        "rutasAsignadas": [
+            "C4"
+        ]
+    }
 }

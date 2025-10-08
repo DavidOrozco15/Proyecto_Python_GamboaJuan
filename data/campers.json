@@ -1,3 +1,21 @@
 {
-
+    "123": {
+        "nombres": "juan",
+        "apellidos": "gamboa",
+        "direccion": "cra",
+        "acudiente": "omaira",
+        "telefonos": {
+            "celular": "3212121",
+            "fijo": "653324"
+        },
+        "estado": "cursando",
+        "riesgo": "bajo",
+        "ruta": "C4",
+        "notas": {},
+        "notaInicial": {
+            "teorica": 90.0,
+            "practica": 90.0,
+            "promedio": 90.0
+        }
+    }
 }

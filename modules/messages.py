@@ -28,16 +28,18 @@ def menuCoordinador():
         print("\n1. Registrar Camper 👨‍🎓")
         print("2. Registrar Trainer 👨‍⚕️")
         print("3. Crear Ruta de entrenamiento 💪")
-        print("4. Cambiar Estados Manuales 🔴🟡🟢")
-        print("5. Registrar Notas 📔")
-        print("6. Asignar Trainer Ruta 🙆")
-        print("7. Asignar Matricula 📚")
-        print("8. Consultar Riesgo Camper 📉")
-        print("9. Reportes 📝")
+        print("4. Crear Grupo de entrenamiento 💪")
+        print("5. Cambiar Estados Manuales 🔴🟡🟢")
+        print("6. Registrar Notas Iniciales 📔")
+        print("7. Registrar Notas de Módulos 📕")
+        print("8. Asignar Trainer Grupo 🙆")
+        print("9. Asignar Matricula 📚")
+        print("10. Consultar Riesgo Camper 📉")
+        print("11. Reportes 📝")
         print("0. Cerrar Sesion 👋")
         try:
             opcion = int(input("\nSeleccione una opcion: "))
-            if opcion in {0,1,2,3,4,5,6,7,8,9}:
+            if opcion in {0,1,2,3,4,5,6,7,8,9,10,11}:
                 return opcion
             else:
                 print("Error: Opción inválida. Intente nuevamente.")

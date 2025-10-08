@@ -33,6 +33,12 @@ def validadorRuta(nombreRuta, rutas):
         return False
     return True
 
+def validadorGrupo(nombreGrupo, grupos):
+    if nombreGrupo in grupos:
+        print("❌ Ya existe un grupo con ese nombre.")
+        return False
+    return True
+
 def validadorCamperNoExiste(IDcamper, campers):
     if IDcamper not in campers:
         print("❌ No existe un camper con ese ID.")
