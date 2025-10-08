@@ -936,6 +936,287 @@ def mostrarResultadosModulos():
 #     print("✅ Información actualizada.")
 #     pausar()
 
+def mostrarRutas():
+    limpiar()
+    ruta = "data/rutas.json"
+    rutas = cargar(ruta)
+
+    print("----MOSTRAR RUTAS----")
+
+    if "rutas" not in rutas or not rutas["rutas"]:
+        print("❌ No hay rutas disponibles.")
+        pausar()
+        return
+
+    for nombreRuta, infoRuta in rutas["rutas"].items():
+        print(f"\n----RUTA: {nombreRuta}----")
+        modulos = infoRuta.get("modulos", {})
+        for nombreModulo, tecnologias in modulos.items():
+            print(f"{nombreModulo}: {', '.join(tecnologias)}")
+        print("-" * 50)
+
+    pausar()
+
+def registrarAsistenciaCamper():
+    limpiar()
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+
+    print("----REGISTRAR ASISTENCIA A CAMPER----")
+
+    if not campers:
+        print("❌ No hay campers registrados.")
+        pausar()
+        return
+
+    # Listar campers
+    print("\n----CAMPERS DISPONIBLES----")
+    for i, (IDcamper, info) in enumerate(campers.items(), start=1):
+        print(f"{i}. {info['nombres']} {info['apellidos']} (ID: {IDcamper})")
+
+    opcion = pedirEntero("\nSeleccione un camper: ")
+    if opcion < 1 or opcion > len(campers):
+        print("❌ Opción inválida.")
+        pausar()
+        return
+
+    IDcamperSeleccionado = list(campers.keys())[opcion - 1]
+
+    # Elegir tipo de asistencia
+    print("\n1. Asistencia ✅")
+    print("2. Llegada Tarde ⏰")
+    print("3. Inasistencia ❌")
+    print("4. Inasistencia Justificada 📄")
+    tipo = pedirEntero("Seleccione el tipo de asistencia: ")
+    if tipo not in [1, 2, 3, 4]:
+        print("❌ Opción inválida.")
+        pausar()
+        return
+
+    # Inicializar campos si no existen
+    if "asistencia" not in campers[IDcamperSeleccionado]:
+        campers[IDcamperSeleccionado]["asistencia"] = 0
+    if "llegadaTarde" not in campers[IDcamperSeleccionado]:
+        campers[IDcamperSeleccionado]["llegadaTarde"] = 0
+    if "inasistencia" not in campers[IDcamperSeleccionado]:
+        campers[IDcamperSeleccionado]["inasistencia"] = 0
+    if "inasistenciaJustificada" not in campers[IDcamperSeleccionado]:
+        campers[IDcamperSeleccionado]["inasistenciaJustificada"] = 0
+
+    if tipo == 1:
+        campers[IDcamperSeleccionado]["asistencia"] += 1
+        print(f"✅ Asistencia registrada para {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}.")
+    elif tipo == 2:
+        campers[IDcamperSeleccionado]["llegadaTarde"] += 1
+        print(f"⏰ Llegada tarde registrada para {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}.")
+    elif tipo == 3:
+        campers[IDcamperSeleccionado]["inasistencia"] += 1
+        print(f"❌ Inasistencia registrada para {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}.")
+    else:
+        campers[IDcamperSeleccionado]["inasistenciaJustificada"] += 1
+        print(f"📄 Inasistencia justificada registrada para {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}.")
+
+    guardar(ruta, campers)
+    pausar()
+
+def consultarAsistenciaCamper():
+    limpiar()
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+
+    print("----CONSULTAR ASISTENCIA DE CAMPERS----")
+
+    if not campers:
+        print("❌ No hay campers registrados.")
+        pausar()
+        return
+
+    print("\n----ASISTENCIA DE CAMPERS----")
+    for IDcamper, info in campers.items():
+        asistencia = info.get("asistencia", 0)
+        llegadaTarde = info.get("llegadaTarde", 0)
+        inasistencia = info.get("inasistencia", 0)
+        inasistenciaJustificada = info.get("inasistenciaJustificada", 0)
+        print(f"👤 {info['nombres']} {info['apellidos']} (ID: {IDcamper}) | Asistencia: {asistencia} | Tarde: {llegadaTarde} | Inasistencia: {inasistencia} | Justificada: {inasistenciaJustificada}")
+
+    pausar()
+
+def asignarPuntosCamper():
+    limpiar()
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+
+    print("----ASIGNAR PUNTOS A CAMPER----")
+
+    if not campers:
+        print("❌ No hay campers registrados.")
+        pausar()
+        return
+
+    # Listar campers
+    print("\n----CAMPERS DISPONIBLES----")
+    for i, (IDcamper, info) in enumerate(campers.items(), start=1):
+        print(f"{i}. {info['nombres']} {info['apellidos']} (ID: {IDcamper})")
+
+    opcion = pedirEntero("\nSeleccione un camper: ")
+    if opcion < 1 or opcion > len(campers):
+        print("❌ Opción inválida.")
+        pausar()
+        return
+
+    IDcamperSeleccionado = list(campers.keys())[opcion - 1]
+
+    # Elegir tipo de puntos
+    print("\n1. Puntos Positivos ➕")
+    print("2. Puntos Negativos ➖")
+    tipo = pedirEntero("Seleccione el tipo de puntos: ")
+    if tipo not in [1, 2]:
+        print("❌ Opción inválida.")
+        pausar()
+        return
+
+    puntos = pedirEntero("Ingrese la cantidad de puntos a asignar: ")
+    if puntos < 0:
+        print("❌ Los puntos no pueden ser negativos.")
+        pausar()
+        return
+
+    # Inicializar campos si no existen
+    if "puntosPositivos" not in campers[IDcamperSeleccionado]:
+        campers[IDcamperSeleccionado]["puntosPositivos"] = 0
+    if "puntosNegativos" not in campers[IDcamperSeleccionado]:
+        campers[IDcamperSeleccionado]["puntosNegativos"] = 0
+
+    if tipo == 1:
+        campers[IDcamperSeleccionado]["puntosPositivos"] += puntos
+        print(f"✅ {puntos} puntos positivos asignados a {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}.")
+    else:
+        campers[IDcamperSeleccionado]["puntosNegativos"] += puntos
+        print(f"✅ {puntos} puntos negativos asignados a {campers[IDcamperSeleccionado]['nombres']} {campers[IDcamperSeleccionado]['apellidos']}.")
+
+    guardar(ruta, campers)
+    pausar()
+
+def consultarPuntosCamper():
+    limpiar()
+    ruta = "data/campers.json"
+    campers = cargar(ruta)
+
+    print("----CONSULTAR PUNTOS DE CAMPERS----")
+
+    if not campers:
+        print("❌ No hay campers registrados.")
+        pausar()
+        return
+
+    print("\n----PUNTOS DE CAMPERS----")
+    for IDcamper, info in campers.items():
+        positivos = info.get("puntosPositivos", 0)
+        negativos = info.get("puntosNegativos", 0)
+        print(f"👤 {info['nombres']} {info['apellidos']} (ID: {IDcamper}) | Positivos: {positivos} | Negativos: {negativos}")
+
+    pausar()
+
+def editarRuta():
+    limpiar()
+    ruta = "data/rutas.json"
+    rutas = cargar(ruta)
+
+    print("----EDITAR UNA RUTA----")
+
+    if "rutas" not in rutas or not rutas["rutas"]:
+        print("❌ No hay rutas disponibles para editar.")
+        pausar()
+        return
+
+    # Listar rutas disponibles
+    print("\n----RUTAS DISPONIBLES----")
+    for i, nombreRuta in enumerate(rutas["rutas"].keys(), start=1):
+        print(f"{i}. {nombreRuta}")
+
+    opcion = pedirEntero("\nSeleccione una ruta para editar: ")
+    if opcion < 1 or opcion > len(rutas["rutas"]):
+        print("❌ Opción inválida.")
+        pausar()
+        return
+
+    nombreRutaSeleccionada = list(rutas["rutas"].keys())[opcion - 1]
+    rutaSeleccionada = rutas["rutas"][nombreRutaSeleccionada]
+
+    # Mostrar módulos actuales
+    print(f"\nMódulos actuales de la ruta '{nombreRutaSeleccionada}':")
+    for modulo, tecnologias in rutaSeleccionada["modulos"].items():
+        print(f"- {modulo}: {', '.join(tecnologias)}")
+
+    # Modificar Programación Formal
+    print("\nModificar Programación Formal:")
+    print("1. Java | 2. JavaScript | 3. C#")
+    formal = pedirEntero("Seleccione una opción: ")
+    if formal == 1:
+        formal = "Java"
+    elif formal == 2:
+        formal = "JavaScript"
+    elif formal == 3:
+        formal = "C#"
+    else:
+        print("Opción inválida, se mantiene el valor actual.")
+        formal = rutaSeleccionada["modulos"].get("Programación formal", [""])[0]
+
+    # Modificar Backend
+    print("\nModificar Backend:")
+    print("1. NodeJS | 2. SpringBoot | 3. Netcore | 4. Express")
+    backend = pedirEntero("Seleccione una opción: ")
+    if backend == 1:
+        backend = "NodeJS"
+    elif backend == 2:
+        backend = "SpringBoot"
+    elif backend == 3:
+        backend = "Netcore"
+    elif backend == 4:
+        backend = "Express"
+    else:
+        print("Opción inválida, se mantiene el valor actual.")
+        backend = rutaSeleccionada["modulos"].get("Backend", [""])[0]
+
+    # Modificar Bases de Datos (opcional, se pueden escoger hasta 2)
+    modulosBaseDatos = ["MySQL", "MongoDB", "PostgreSQL"]
+    print("\nBases de datos disponibles (escoge hasta 2, separados por coma):")
+    for i, db in enumerate(modulosBaseDatos, 1):
+        print(f"{i}. {db}")
+
+    while True:
+        dbInput = input("Ingrese números separados por coma (Enter para mantener actuales): ").strip()
+        if not dbInput:
+            basesSeleccionadas = rutaSeleccionada["modulos"].get("Bases de datos", [])
+            break
+        indicesStr = dbInput.split(",")
+        indices = []
+        for idx in indicesStr:
+            idx = idx.strip()
+            if not idx.isdigit():
+                print("❌ Entrada inválida. Solo números separados por coma.")
+                break
+            num = int(idx)
+            if num < 1 or num > len(modulosBaseDatos):
+                print("❌ Número fuera de rango.")
+                break
+            indices.append(num)
+        else:
+            if len(indices) > 2:
+                print("❌ Máximo dos opciones.")
+            else:
+                basesSeleccionadas = [modulosBaseDatos[i-1] for i in indices]
+                break
+
+    # Actualizar la ruta con los nuevos módulos
+    rutas["rutas"][nombreRutaSeleccionada]["modulos"]["Programación formal"] = [formal]
+    rutas["rutas"][nombreRutaSeleccionada]["modulos"]["Backend"] = [backend]
+    rutas["rutas"][nombreRutaSeleccionada]["modulos"]["Bases de datos"] = basesSeleccionadas
+
+    guardar(ruta, rutas)
+    print(f"\n✅ Ruta '{nombreRutaSeleccionada}' actualizada correctamente.")
+    pausar()
+
 def listarGruposDisponibles():
     limpiar()
     ruta = "data/rutas.json"
