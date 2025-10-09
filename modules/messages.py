@@ -7,10 +7,11 @@ def menuLog():
         limpiar()
         print("----CAMPUSLANDS ERP----")
         print("\n1. Iniciar Sesion 👤")
+        print("2. TEST GENERAR REPORTE")
         print("0. Salir 👋")
         try:
             opcion = int(input("\nSeleccione una opcion: "))
-            if opcion in {0, 1}:
+            if opcion in {0, 1, 2}:
                 return opcion
             else:
                 print("\nError: Opción inválida. Intente nuevamente.")

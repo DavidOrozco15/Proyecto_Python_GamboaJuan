@@ -135,6 +135,39 @@
                     }
                 }
             }
+        },
+        "J1": {
+            "ruta": "NodeJS",
+            "capacidadMax": 33,
+            "campersAsignados": [],
+            "salon": "salon 1",
+            "horarios": [
+                "12:00-16:00"
+            ],
+            "trainerEncargado": "3000",
+            "matriculas": {}
+        },
+        "C2": {
+            "ruta": "Java",
+            "capacidadMax": 23,
+            "campersAsignados": [],
+            "salon": "salon 2",
+            "horarios": [
+                "08:00-12:00"
+            ],
+            "trainerEncargado": "4000",
+            "matriculas": {}
+        },
+        "K2": {
+            "ruta": "Netcore",
+            "capacidadMax": 12,
+            "campersAsignados": [],
+            "salon": "salon 3",
+            "horarios": [
+                "12:00-16:00"
+            ],
+            "trainerEncargado": "No asignado",
+            "matriculas": {}
         }
     }
 }

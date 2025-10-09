@@ -17,5 +17,33 @@
             "practica": 90.0,
             "promedio": 90.0
         }
+    },
+    "1111": {
+        "nombres": "carlos",
+        "apellidos": "ramirez",
+        "direccion": "cra 33",
+        "acudiente": "diana",
+        "telefonos": {
+            "celular": "3121212",
+            "fijo": "64124124"
+        },
+        "estado": "en proceso de ingreso",
+        "riesgo": "bajo",
+        "ruta": null,
+        "notas": {}
+    },
+    "2222": {
+        "nombres": "armando",
+        "apellidos": "suarez",
+        "direccion": "cra 22",
+        "acudiente": "sonia",
+        "telefonos": {
+            "celular": "3121215",
+            "fijo": "641334"
+        },
+        "estado": "en proceso de ingreso",
+        "riesgo": "bajo",
+        "ruta": null,
+        "notas": {}
     }
 }

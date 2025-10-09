@@ -20,6 +20,8 @@ def main():
                         mainTrainer(user)
                     case "camper":
                         mainCamper(user)
+            case 2:
+                c.listarRutaCampersTrainers()
             case 0:
                 print("¡Hasta luego! 👋")
                 break

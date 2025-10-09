@@ -8,5 +8,25 @@
         "rutasAsignadas": [
             "C4"
         ]
+    },
+    "3000": {
+        "nombres": "sofia",
+        "apellidos": "peña",
+        "telefono": "312125",
+        "correo": "sofia@gmail.com",
+        "estado": "activo",
+        "rutasAsignadas": [
+            "J1"
+        ]
+    },
+    "4000": {
+        "nombres": "cesar",
+        "apellidos": "perez",
+        "telefono": "31523123",
+        "correo": "cesarp@gmail.com",
+        "estado": "activo",
+        "rutasAsignadas": [
+            "C2"
+        ]
     }
 }

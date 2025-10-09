@@ -44,3 +44,4 @@ Este proyecto busca **simular un ERP académico real** donde se gestionan proces
 - Separación por roles y responsabilidades en el software.  
 - Uso de programación modular para escalabilidad.  
 
+# Proyecto_Python_GamboaJuan_Test
