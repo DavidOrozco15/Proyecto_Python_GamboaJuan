@@ -611,7 +611,7 @@ def listarCampersBajoRendimiento():
         print("-"*80)
     pausar()
 
-def listarRutaCampersTrainers():
+def exportar_trainers_rutas():
     limpiar()
     ruta = "data/rutas.json"
     rutaRutas = cargar(ruta)

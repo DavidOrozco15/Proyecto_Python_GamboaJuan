@@ -21,7 +21,7 @@ def main():
                     case "camper":
                         mainCamper(user)
             case 2:
-                c.listarRutaCampersTrainers()
+                c.exportar_trainers_rutas()
             case 0:
                 print("¡Hasta luego! 👋")
                 break
