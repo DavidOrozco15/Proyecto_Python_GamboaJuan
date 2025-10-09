@@ -1,0 +1,30 @@
+{
+    "111": {
+        "david orozco": {
+            "Nose": {
+                "Salon": "salon 1"
+            }
+        }
+    },
+    "3000": {
+        "sofia peña": {
+            "NodeJS": {
+                "Salon": "salon 1"
+            }
+        }
+    },
+    "4000": {
+        "cesar perez": {
+            "Java": {
+                "Salon": "salon 2"
+            }
+        }
+    },
+    "No asignado": {
+        "No asignado": {
+            "Netcore": {
+                "Salon": "salon 3"
+            }
+        }
+    }
+}
